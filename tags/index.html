@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -85,7 +85,7 @@
 
 
 
-  <link rel="alternate" href="/不保存" title="Guoker'sBlog" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="Guoker'sBlog" type="application/atom+xml" />
 
 
 
@@ -97,13 +97,17 @@
 
 
 
+<meta name="description" content="一个小窝，记录自己。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="tisp">
-<meta property="og:url" content="http://yoursite.com/tisp/index.html">
+<meta property="og:title" content="tags">
+<meta property="og:url" content="http://cmvideo.me/tags/index.html">
 <meta property="og:site_name" content="Guoker&#39;sBlog">
-<meta property="og:updated_time" content="2017-09-16T16:09:27.201Z">
+<meta property="og:description" content="一个小窝，记录自己。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-16T17:17:13.348Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tisp">
+<meta name="twitter:title" content="tags">
+<meta name="twitter:description" content="一个小窝，记录自己。">
 
 
 
@@ -119,7 +123,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -133,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tisp/"/>
+  <link rel="canonical" href="http://cmvideo.me/tags/"/>
 
 
 
 
 
-  <title>tisp | Guoker'sBlog</title>
+  <title>tags | Guoker'sBlog</title>
   
 
 
@@ -151,7 +155,7 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -162,7 +166,8 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+      <div class="header-inner">
+<div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
@@ -174,7 +179,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description"></h1>
       
   </div>
 
@@ -199,7 +204,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            首页
           </a>
         </li>
       
@@ -209,7 +214,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            Über
+            关于
           </a>
         </li>
       
@@ -219,7 +224,17 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -229,7 +244,17 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
           </a>
         </li>
       
@@ -239,17 +264,17 @@
             
               <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
             
-            Sitemap
+            站点地图
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-test">
-          <a href="/test/" rel="section">
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
-            test
+            公益404
           </a>
         </li>
       
@@ -279,7 +304,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tisp</h1>
+	<h2 class="post-title" itemprop="name headline">tags</h2>
 
 
 
@@ -291,7 +316,14 @@
       <div class="post-body">
         
         
-          
+          <div class="tag-cloud">
+            <div class="tag-cloud-title">
+                暂无标签
+            </div>
+            <div class="tag-cloud-tags">
+              
+            </div>
+          </div>
         
       </div>
       
@@ -337,6 +369,10 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
+            <img class="site-author-image" itemprop="image"
+              src="http://owd8lsn77.bkt.clouddn.com/tx.png"
+              alt="guoker" />
+          
             <p class="site-author-name" itemprop="name">guoker</p>
             <p class="site-description motion-element" itemprop="description"></p>
         </div>
@@ -349,7 +385,7 @@
               <a href="/archives/">
             
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
@@ -362,7 +398,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/不保存" rel="alternate">
+            <a href="/atom.xml" rel="alternate">
               <i class="fa fa-rss"></i>
               RSS
             </a>
@@ -411,11 +447,11 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">基于 <a class="theme-link" href="https://hexo.io">Hexo</a> 修改</div>
 
   <span class="post-meta-divider">|</span>
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+  <div class="theme-info">定制主题 &mdash; <a class="theme-link" href="https://github.com/GuoKerS/hexo-theme-next-Gktheme">Gktheme.Mist</a> v5.1.2</div>
 
 
         
