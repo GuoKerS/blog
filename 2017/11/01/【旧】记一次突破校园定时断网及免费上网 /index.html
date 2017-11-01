@@ -122,7 +122,7 @@
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557690451.jpg">
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557695321.jpg">
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557707606.jpg">
-<meta property="og:updated_time" content="2017-11-01T17:42:45.504Z">
+<meta property="og:updated_time" content="2017-11-01T17:48:14.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【旧】记一次突破校园定时断网及免费上网">
 <meta name="twitter:description" content="一篇以前写文章，无意间又翻到因此传上来分享 前言首先在宿舍访问学校内网需要在路由器断开ppoe拨号，并切换成动态IP方式才可以正常访问。根据学校机房所在的位置，断网情况只存在宿舍区域推测内网的服务器是不会受断网影响。所以如果我能拿到内网服务器不仅能够突破11.40的断网说不定还能整个大学生涯免费上网， 想想都有点小激动。 信息搜集首先用nmap扫描内网B段 12nmap -v -sn -PE -n">
@@ -432,8 +432,8 @@
 
       
         <p>一篇以前写文章，无意间又翻到因此传上来分享</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><pre><code>首先在宿舍访问学校内网需要在路由器断开ppoe拨号，并切换成动态IP方式才可以正常访问。根据学校机房所在的位置，断网情况只存在宿舍区域推测内网的服务器是不会受断网影响。所以如果我能拿到内网服务器不仅能够突破11.40的断网说不定还能整个大学生涯免费上网， 想想都有点小激动。
-</code></pre><h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>首先用nmap扫描内网B段</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先在宿舍访问学校内网需要在路由器断开ppoe拨号，并切换成动态IP方式才可以正常访问。根据学校机房所在的位置，断网情况只存在宿舍区域推测内网的服务器是不会受断网影响。所以如果我能拿到内网服务器不仅能够突破11.40的断网说不定还能整个大学生涯免费上网， 想想都有点小激动。</p>
+<h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>首先用nmap扫描内网B段</p>
 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">nmap -v -sn -PE -n --min-hostgroup 1024 --min-parallelism 1024 -oX nmap_output.xml 192.168.1.1/16</div></pre></td></tr></table></figure>
 <p><img src="http://owd8lsn77.bkt.clouddn.com/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509556899374.jpg" alt="enter description here"></p>
 <p>65536个IP地址中有266个存活，排除本机所在的C段证明只有一个段是公共区域可以访问的，也就是学校的内网web服务器，先直接使用nmap扫描C段 </p>
