@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://cmvideo.pw/"/>
-  <updated>2017-11-01T17:48:14.722Z</updated>
+  <updated>2017-11-02T13:11:08.262Z</updated>
   <id>http://cmvideo.pw/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安全信息资料库（感谢backlion整理）</title>
+    <link href="http://cmvideo.pw/2017/11/02/%E5%AE%89%E5%85%A8%E4%BF%A1%E6%81%AF%E8%B5%84%E6%96%99%E5%BA%93%EF%BC%88%E6%84%9F%E8%B0%A2backlion%E6%95%B4%E7%90%86%EF%BC%89/"/>
+    <id>http://cmvideo.pw/2017/11/02/安全信息资料库（感谢backlion整理）/</id>
+    <published>2017-11-02T13:11:00.000Z</published>
+    <updated>2017-11-02T13:11:08.262Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;原文地址：&lt;br&gt;&lt;a href=&quot;https://www.t00ls.net/pytools.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.t00ls.net/pytools.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;感谢back
+      
+    
+    </summary>
+    
+    
+      <category term="资料" scheme="http://cmvideo.pw/tags/%E8%B5%84%E6%96%99/"/>
+    
+  </entry>
   
   <entry>
     <title>【旧】记一次突破校园定时断网及免费上网</title>
@@ -43,7 +65,7 @@
     <link href="http://cmvideo.pw/2017/11/01/Windows%E8%A1%A5%E4%B8%81%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95/"/>
     <id>http://cmvideo.pw/2017/11/01/Windows补丁信息查询利用方法/</id>
     <published>2017-10-31T16:45:00.000Z</published>
-    <updated>2017-11-01T17:43:31.849Z</updated>
+    <updated>2017-11-01T17:43:31.848Z</updated>
     
     <summary type="html">
     
@@ -87,7 +109,7 @@
     <link href="http://cmvideo.pw/2017/09/24/Hexo+GitHub%20Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"/>
     <id>http://cmvideo.pw/2017/09/24/Hexo+GitHub Pages搭建个人博客的一些坑/</id>
     <published>2017-09-24T11:48:00.000Z</published>
-    <updated>2017-10-08T15:53:51.201Z</updated>
+    <updated>2017-10-08T15:53:51.200Z</updated>
     
     <summary type="html">
     
@@ -108,7 +130,7 @@
     <title>Hello World</title>
     <link href="http://cmvideo.pw/2017/09/17/hello-world/"/>
     <id>http://cmvideo.pw/2017/09/17/hello-world/</id>
-    <published>2017-09-17T05:07:01.950Z</published>
+    <published>2017-09-17T05:07:01.887Z</published>
     <updated>2017-09-17T05:07:01.888Z</updated>
     
     <summary type="html">
@@ -128,7 +150,7 @@
     <link href="http://cmvideo.pw/2017/09/17/Test/"/>
     <id>http://cmvideo.pw/2017/09/17/Test/</id>
     <published>2017-09-16T16:08:56.000Z</published>
-    <updated>2017-09-17T07:02:58.353Z</updated>
+    <updated>2017-09-17T07:02:58.352Z</updated>
     
     <summary type="html">
     
