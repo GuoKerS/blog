@@ -122,7 +122,7 @@
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/25/1511588892484.jpg">
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/25/1511588975737.jpg">
 <meta property="og:image" content="http://owd8lsn77.bkt.clouddn.com/25/1511589259055.jpg">
-<meta property="og:updated_time" content="2017-11-27T14:31:15.460Z">
+<meta property="og:updated_time" content="2017-11-27T14:33:47.276Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次给Ubuntu搬家（迁移系统至SSD）">
 <meta name="twitter:description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback">
@@ -432,7 +432,7 @@
 
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>操作系统：Ubuntu 16.04 LTS<br>使用软件：Systemback       Grub Customizer<br>U盘一个</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>操作系统：Ubuntu 16.04 LTS<br>使用软件：Systemback   、    Grub Customizer<br>U盘一个</p>
 <h2 id="Systemback"><a href="#Systemback" class="headerlink" title="Systemback"></a>Systemback</h2><p>Systemback是一个Ubuntu系统中用于发布自定义系统镜像和系统备份的软件。有时候我们对自己的Ubuntu做了很多设置，比如各种软件包，各种自定义的配置。我们想要在另一台电脑上也安装一个和我们一模一样的系统，这个时候就会用到这种方法了。这个方法不仅可以用于发布系统，也可以用来作为系统备份使用。</p>
 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:nemh/systemback</div><div class="line">sudo apt-get update &amp;&amp; sudo apt-get install systemback unionfs-fuse</div></pre></td></tr></table></figure>
 <h2 id="Grub-Customizer"><a href="#Grub-Customizer" class="headerlink" title="Grub Customizer"></a>Grub Customizer</h2><p>Grub Customizer ，是一个很酷的GRUB2 配置工，图形化界面，让你配置更简单，轻松上手。</p>
