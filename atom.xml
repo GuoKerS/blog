@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://o0o0.club/"/>
-  <updated>2019-01-03T08:58:08.025Z</updated>
+  <updated>2019-01-03T09:12:48.811Z</updated>
   <id>http://o0o0.club/</id>
   
   <author>
@@ -21,13 +21,14 @@
     <link href="http://o0o0.club/2019/01/03/Heartbleed%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80-%E5%BE%AA%E7%8E%AF%E6%90%9C%E9%9B%86%E8%84%9A%E6%9C%AC/"/>
     <id>http://o0o0.club/2019/01/03/Heartbleed心脏出血-循环搜集脚本/</id>
     <published>2019-01-03T08:54:00.000Z</published>
-    <updated>2019-01-03T08:58:08.025Z</updated>
+    <updated>2019-01-03T09:12:48.811Z</updated>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;前言-enter-description-here-1&quot;&gt;&lt;a href=&quot;#前言-enter-description-here-1&quot; class=&quot;headerlink&quot; title=&quot;前言![enter description here][1]&quot;&gt;&lt;/a&gt;前言
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;14年的漏洞，帮大佬打杂根据网上的exp改的循环利用，搜集信息可用。&lt;/p&gt;
+&lt;p&gt;修改如下：&lt;br&gt;1.去除返回的偏移量与非Ascii字符
       
     
     </summary>
