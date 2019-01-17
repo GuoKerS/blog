@@ -122,7 +122,7 @@
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557690451.jpg">
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557695321.jpg">
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1509557707606.jpg">
-<meta property="og:updated_time" content="2019-01-17T08:25:01.360Z">
+<meta property="og:updated_time" content="2019-01-17T08:25:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【旧】记一次突破校园定时断网及免费上网">
 <meta name="twitter:description" content="一篇以前写文章，无意间又翻到因此传上来分享 前言首先在宿舍访问学校内网需要在路由器断开ppoe拨号，并切换成动态IP方式才可以正常访问。根据学校机房所在的位置，断网情况只存在宿舍区域推测内网的服务器是不会受断网影响。所以如果我能拿到内网服务器不仅能够突破11.40的断网说不定还能整个大学生涯免费上网， 想想都有点小激动。 信息搜集首先用nmap扫描内网B段 12nmap -v -sn -PE -n">
@@ -136,7 +136,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -432,6 +432,24 @@
     
 
     
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    GuoKer'sBlog
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://o0o0.club/2017/11/01/【旧】记一次突破校园定时断网及免费上网 /" title="【旧】记一次突破校园定时断网及免费上网">http://o0o0.club/2017/11/01/【旧】记一次突破校园定时断网及免费上网 /</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
 
     <footer class="post-footer">
       
@@ -540,7 +558,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -623,9 +641,33 @@
                 </li>
               
             </ul>
+        <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("09/17/2017 00:08:56");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
           </div>
-        
-
         
 
 
@@ -664,7 +706,7 @@
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -689,7 +731,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">|	博客全站共19.0k字</span>
+  <span class="post-count">|	博客全站共18.9k字</span>
 </div>
 
         

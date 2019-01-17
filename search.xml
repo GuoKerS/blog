@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F01%2F17%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[Python实现每日定时发送天气预报给自己（或其他人）]]></title>
     <url>%2F2019%2F01%2F12%2F%20Python%E5%AE%9E%E7%8E%B0%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E5%8F%91%E9%80%81%E5%A4%A9%E6%B0%94%E9%A2%84%E6%8A%A5%E7%BB%99%E8%87%AA%E5%B7%B1%EF%BC%88%E6%88%96%E5%85%B6%E4%BB%96%E4%BA%BA%EF%BC%89%2F</url>
     <content type="text"><![CDATA[前言这几天，天冷就算了，还天天下毛毛雨，潮湿难受，每天出门都要拉开窗帘跑去阳台，透过水蒙蒙的玻璃看看外面天气如何。想想每天起来第一件事都是先看看微信消息，不如趁着学习itchat这段时间写每天早上准时发送天气预报的功能吧。效果已最后一条为准，简单粗暴。 程序的大致流程：1.登录微信-》2.查询当前时间-》3.判断是否到达指定时间-》4.抓取天气信息（API）-》5.发送给直接-》6.循环（返回2） 代码12345678910111213141516171819202122232425262728293031323334353637383940414243import timeimport itchatimport requestsimport datetimedef weather(): request = requests.get('http://v.juhe.cn/weather/index?cityname=%E5%8D%97%E5%AE%81&amp;dtype=&amp;format=2&amp;key=a0415e394775292ef2afcb115fb77b3d') request.encoding='utf-8' data = request.json() #温度 emperature = data['result']['today']['temperature'] #天气 weather = data['result']['today']['weather'] #星期 week = data['result']['today']['week'] text = '今日%s\n今日温度%s\n今日天气%s'%(week,emperature,weather) return textdef wechat_send(): #itchat.auto_login(True) itchat.send(weather(),toUserName=None)def loop(h,m): itchat.auto_login(True) while True: new = datetime.datetime.now() if new.hour == h and new.minute &gt; m : try: wechat_send() print('消息已发送，当前时间：'+time.strftime("%Y-%m-%d %H:%M:%S")) except: print('消息未发送，未知错误，当前时间：'+time.strftime("%Y-%m-%d %H:%M:%S")) else: try: print('未达到指定时间段，程序延迟30分钟后重试，当前时间：'+time.strftime("%Y-%m-%d %H:%M:%S")) time.sleep(1800) except: print('已退出微信天气推送') exit()if __name__ == '__main__': loop(8,00) 总结 ：D]]></content>
@@ -29,7 +34,8 @@
     <url>%2F2019%2F01%2F04%2FDeepin%E5%AE%98%E7%BD%91%E5%AE%89%E8%A3%85Pycharm%7C%E6%BF%80%E6%B4%BB%7C%E6%B1%89%E5%8C%96%2F</url>
     <content type="text"><![CDATA[前言由于deepin商城中的pycharm迟迟未更新，因此打算手动安装官网最新版（2018.3）并写下记录供其他有需要的朋友参照。 操作安装Pycharm下载后解压并安装12345sudo wget -o /usr/local/bin/ https://download-cf.jetbrains.com/python/pycharm-professional-2018.3.2.tar.gz #下载cd /usr/local/bin/ #切换目录sudo tar zxvf pycharm-professional-2018.3.2.tar.gz #解压cd pycharm-2018.3.2/bin/ #切换目录sudo sh pycharm.sh #安装pycharm 选择第三项 跳过设置后会弹出激活选项，接下进行激活 激活激活方式我选择使用激活码进行激活 优点：Window、Mac、Ubantu都稳定有效，关键是这种激活方式不会产生其他影响缺点：需要修改hosts文件 修改hosts文件编辑/etc/hosts文件将0.0.0.0 account.jetbrains.com添加至文件末尾123sudo vim /etc/hostsa:wq 复制激活码选择Activation code激活，然后复制下面的激活码点击激活。（有效期至2019年5月4号）1K71U8DBPNE-eyJsaWNlbnNlSWQiOiJLNzFVOERCUE5FIiwibGljZW5zZWVOYW1lIjoibGFuIHl1IiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6IiIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlIjoiSUkiLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJSUzAiLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJXUyIsInBhaWRVcFRvIjoiMjAxOS0wNS0wNCJ9LHsiY29kZSI6IlJEIiwicGFpZFVwVG8iOiIyMDE5LTA1LTA0In0seyJjb2RlIjoiUkMiLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJEQyIsInBhaWRVcFRvIjoiMjAxOS0wNS0wNCJ9LHsiY29kZSI6IkRCIiwicGFpZFVwVG8iOiIyMDE5LTA1LTA0In0seyJjb2RlIjoiUk0iLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJETSIsInBhaWRVcFRvIjoiMjAxOS0wNS0wNCJ9LHsiY29kZSI6IkFDIiwicGFpZFVwVG8iOiIyMDE5LTA1LTA0In0seyJjb2RlIjoiRFBOIiwicGFpZFVwVG8iOiIyMDE5LTA1LTA0In0seyJjb2RlIjoiR08iLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJQUyIsInBhaWRVcFRvIjoiMjAxOS0wNS0wNCJ9LHsiY29kZSI6IkNMIiwicGFpZFVwVG8iOiIyMDE5LTA1LTA0In0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifSx7ImNvZGUiOiJSU1UiLCJwYWlkVXBUbyI6IjIwMTktMDUtMDQifV0sImhhc2giOiI4OTA4Mjg5LzAiLCJncmFjZVBlcmlvZERheXMiOjAsImF1dG9Qcm9sb25nYXRlZCI6ZmFsc2UsImlzQXV0b1Byb2xvbmdhdGVkIjpmYWxzZX0=-Owt3/+LdCpedvF0eQ8635yYt0+ZLtCfIHOKzSrx5hBtbKGYRPFDrdgQAK6lJjexl2emLBcUq729K1+ukY9Js0nx1NH09l9Rw4c7k9wUksLl6RWx7Hcdcma1AHolfSp79NynSMZzQQLFohNyjD+dXfXM5GYd2OTHya0zYjTNMmAJuuRsapJMP9F1z7UTpMpLMxS/JaCWdyX6qIs+funJdPF7bjzYAQBvtbz+6SANBgN36gG1B2xHhccTn6WE8vagwwSNuM70egpahcTktoHxI7uS1JGN9gKAr6nbp+8DbFz3a2wd+XoF3nSJb/d2f/6zJR8yJF8AOyb30kwg3zf5cWw==-MIIEPjCCAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAwwGcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZcfRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRykGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZuYgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJbmAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbfdAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDSU9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyWh7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0lRJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog== 汉化打开终端使用wget下载汉化包解压移动至/usr/local/bin/pycharm-2018.3.2/lib目录下12345wget https://github.com/ewen0930/PyCharm-Chinese/releases/download/0.8.3-beta-v2018.3/PyCharm_2018.3_zh_utf-8.zipunzip PyCharm_2018.3_zh_utf-8.zipsudo cp /usr/local/bin/pycharm-2018.3.2/lib/resources_en.jar /usr/local/bin/pycharm-2018.3.2/lib/resources_en.jar.bak #备份语言文件sudo mv lib/resources_zh.jar /usr/local/bin/pycharm-2018.3.2/lib/resources_en.jar #移动中文汉化包sh /usr/local/bin/pycharm-2018.3.2/bin/pycharm.sh 此时我们打开pycharm后会发现英文变成了乱码，由于字体的问题，我们需要安装字体来解决中文乱码。 解决中文乱码问题相信大部分Deepin选手都还是双系统，因此直接把Windows下 /Windows/Fonts的文件夹 复制到 Deepin下/usr/share/fonts/文件夹中，并把Fonts改名为winFonts。再次启动pycharm即可1sh /usr/local/bin/pycharm-2018.3.2/bin/pycharm.sh 好吧，字真丑 创建启动快捷方式 然后输入管理员密码，再去看看你的deepin启动器吧 下载地址Pycharm1[Pycharm官方下载地址](https://www.jetbrains.com/pycharm/download/#section=linux) 打开链接，选择专业版下载回本地 激活1[三种激活方法](https://blog.csdn.net/u014044812/article/details/78727496) 根据个人洗好选择你喜欢的激活方式 汉化1[汉化文件](https://github.com/ewen0930/PyCharm-Chinese/releases) 根据本机安装pycharm版本，选择对应的汉化包 汉化乱码字体包1[winFonts]()]]></content>
       <tags>
-        <tag>Python,Deepin</tag>
+        <tag>Python</tag>
+        <tag>Deepin</tag>
       </tags>
   </entry>
   <entry>
@@ -39,11 +45,6 @@
       <tags>
         <tag>Python</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[整理关于CVE-2017-11882的利用方法]]></title>
-    <url>%2F2017%2F11%2F28%2F%E6%95%B4%E7%90%86%E5%85%B3%E4%BA%8ECVE2017-11882%E7%9A%84%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[前言2017年11月17日微软曝光了影响office全版本的代码执行漏洞。 https://github.com/embedi/CVE-2017-11882 43bhttps://github.com/unamer/CVE-2017-11882 109bhttps://github.com/Ridter/CVE-2017-11882 三种版本的poc 整理1.简单测试2.powershell3.hta4.dll5.]]></content>
   </entry>
   <entry>
     <title><![CDATA[记一次给Ubuntu搬家（迁移系统至SSD）]]></title>
@@ -92,11 +93,6 @@
       <tags>
         <tag>Hexo</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2017%2F09%2F17%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
   </entry>
   <entry>
     <title><![CDATA[Test!]]></title>

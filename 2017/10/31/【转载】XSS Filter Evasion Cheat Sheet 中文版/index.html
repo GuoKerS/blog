@@ -112,7 +112,7 @@
 <meta property="og:site_name" content="Guoker">
 <meta property="og:description" content="XSS Filter Evasion Cheat Sheet 中文版译者注：翻译本文的最初原因是当我自己看到这篇文章后，觉得它是非常的价值。但是这么著名的一个备忘录却一直没有人把它翻译成中文版。很多人仅仅是简单的把文中的各种代码复制下来，然后看起来很刁的发在各种论坛上，不过你要真去认真研读这些代码，就会完全不知所云了。原因是这篇文章最精华的部分是代码的解释而非代码本身。 一方面为了自己学习，一方">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-04T04:58:29.879Z">
+<meta property="og:updated_time" content="2019-01-04T04:58:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【转载】XSS Filter Evasion Cheat Sheet 中文版">
 <meta name="twitter:description" content="XSS Filter Evasion Cheat Sheet 中文版译者注：翻译本文的最初原因是当我自己看到这篇文章后，觉得它是非常的价值。但是这么著名的一个备忘录却一直没有人把它翻译成中文版。很多人仅仅是简单的把文中的各种代码复制下来，然后看起来很刁的发在各种论坛上，不过你要真去认真研读这些代码，就会完全不知所云了。原因是这篇文章最精华的部分是代码的解释而非代码本身。 一方面为了自己学习，一方">
@@ -125,7 +125,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
@@ -899,6 +899,24 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
     
 
     
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    GuoKer'sBlog
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://o0o0.club/2017/10/31/【转载】XSS Filter Evasion Cheat Sheet 中文版/" title="【转载】XSS Filter Evasion Cheat Sheet 中文版">http://o0o0.club/2017/10/31/【转载】XSS Filter Evasion Cheat Sheet 中文版/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
 
     <footer class="post-footer">
       
@@ -1007,7 +1025,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1090,9 +1108,33 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
                 </li>
               
             </ul>
+        <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("09/17/2017 00:08:56");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
           </div>
-        
-
         
 
 
@@ -1131,7 +1173,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
         <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">
   
-  &copy; 
+  &copy;  2017 &mdash; 
   <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -1156,7 +1198,7 @@ tt    p://6    6.000146.0x7.147/&quot;&gt;XSS&lt;/A&gt;
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">|	博客全站共19.0k字</span>
+  <span class="post-count">|	博客全站共18.9k字</span>
 </div>
 
         
