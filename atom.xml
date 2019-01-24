@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://o0o0.club/"/>
-  <updated>2019-01-24T07:03:40.157Z</updated>
+  <updated>2019-01-24T07:41:26.641Z</updated>
   <id>http://o0o0.club/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Heartbleed2.0（搜集信息）</title>
+    <link href="http://o0o0.club/2019/01/24/Heartbleed2.0%EF%BC%88%E6%90%9C%E9%9B%86%E4%BF%A1%E6%81%AF%EF%BC%89/"/>
+    <id>http://o0o0.club/2019/01/24/Heartbleed2.0（搜集信息）/</id>
+    <published>2019-01-23T16:00:00.000Z</published>
+    <updated>2019-01-24T07:41:26.641Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;继&lt;a href=&quot;https://o0o0.club/2019/01/03/Heartbleed%E5%BF%83%E8%84%8F%E5
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="http://o0o0.club/tags/Python/"/>
+    
+      <category term="渗透" scheme="http://o0o0.club/tags/%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>你必须非常努力，才能看起来毫不费力。</title>
