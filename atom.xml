@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://o0o0.club/"/>
-  <updated>2019-03-29T16:06:05.024Z</updated>
+  <updated>2019-03-30T14:10:59.542Z</updated>
   <id>http://o0o0.club/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://o0o0.club/2019/03/15/%E5%8D%97%E5%AE%81%E5%AD%A6%E9%99%A2%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F%E7%BB%95%E8%BF%87%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E9%99%86%E4%B8%8E%E5%B9%B3%E8%A1%8C%E6%9D%83%E9%99%90%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
     <id>http://o0o0.club/2019/03/15/南宁学院教务系统绕过登录验证码登陆与平行权限信息泄露/</id>
     <published>2019-03-14T16:00:00.000Z</published>
-    <updated>2019-03-29T16:06:05.024Z</updated>
+    <updated>2019-03-30T14:10:59.542Z</updated>
     
     <summary type="html">
     
@@ -33,7 +33,9 @@
     </summary>
     
     
-      <category term="web,信息泄露" scheme="http://o0o0.club/tags/web-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
+      <category term="信息泄露" scheme="http://o0o0.club/tags/%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
+    
+      <category term="web" scheme="http://o0o0.club/tags/web/"/>
     
   </entry>
   
@@ -42,7 +44,7 @@
     <link href="http://o0o0.club/2019/03/01/Chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%93%E5%BC%80PDF%E9%80%A0%E6%88%90%E7%9A%84%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
     <id>http://o0o0.club/2019/03/01/Chrome浏览器打开PDF造成的信息泄露/</id>
     <published>2019-02-28T16:00:00.000Z</published>
-    <updated>2019-03-29T16:05:42.437Z</updated>
+    <updated>2019-03-30T14:10:29.228Z</updated>
     
     <summary type="html">
     
@@ -54,7 +56,9 @@
     </summary>
     
     
-      <category term="信息泄露,复现" scheme="http://o0o0.club/tags/%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2-%E5%A4%8D%E7%8E%B0/"/>
+      <category term="信息泄露" scheme="http://o0o0.club/tags/%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
+    
+      <category term="复现" scheme="http://o0o0.club/tags/%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   

