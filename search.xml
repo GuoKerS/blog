@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Mysql注入总结(待填坑)]]></title>
+    <url>%2FMysql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93(%E5%BE%85%E5%A1%AB%E5%9D%91)%2F</url>
+    <content type="text"><![CDATA[Please enter the password to read the blog. Incorrect Password! No content to display! U2FsdGVkX1+gzvgrb/absLxyB83Gv0i0eJVqrvDdhKDmDpzcQtjO4u/VnedXnt5mXISnfezbH9mfLhI2UWygfIJYHoy8O6/Adr12J9HuYLmJ2RQo21olG4fb4Q9uXjBDtTLUhoqtzYBUsi5vtR+5SimYWNA7FGnaD9yy55dlfFtw4Lam5lpQEI9tunAMHKXM4de40O+vdI/fnKZV5Id2D8jdQvnweEj9I4cgWHO0/JbWSh8TK1VPgOmfAq0YHIy6+irUeFjDlI8yTygIwZzmbawsYWQlgxe8X4xpMk7BE0jlEteUAiu3YzwdMz9FzGd+z27BYLb1FuFNJebh3axJyZBg9IyGKrRs+A2BFhfUObSSBnMcjAm3sLdsOJzAkyQAPAzcORBkIyN/9x/YoRK801KkDHkUZ9r3v3ghWkjq/UPjAPz1S+rU48SJV4cG8YoblBgUzR3RpXn/GU07i/16CXLXXEC1UGP4invURMY/qCiWzrfdMsGysymfRi7ZZ7vxMDB+kfJDoiTtE5Oko0MjDR4QxlCbJrtufVd1Y6YfVuI=]]></content>
+      <tags>
+        <tag>渗透测试</tag>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Python批量运维之执行命令（ssh登录）]]></title>
     <url>%2FPython%E6%89%B9%E9%87%8F%E8%BF%90%E7%BB%B4%E4%B9%8B%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%EF%BC%88ssh%E7%99%BB%E5%BD%95%EF%BC%89%2F</url>
     <content type="text"><![CDATA[前言最近由于工作的原因，需要给客户安装防护软件，由于对方大部分机器都是Linux系统并且未使用运维管理类的软件。因此需要人工一台台登录执行命令（数量大约2000台），但所幸的是软件的安装部署已集成脚本，只需要执行./ 执行即可。 前后写过两次脚本，第一次由于没有考虑到root账号不能直接ssh登录，无法正常执行安装。因此第二次增加了执行su -l后自动填入密码切换至root权限后再执行。 坏境Windows 2012 + Python2.7 + paramiko模块此环境为申请到的堡垒机，其他设备不能直接接入内网。（由于paramiko模块并非Python自带，需要pip或者手动安装，鉴于机器处在物理隔离的环境中，因此选择手动安装。） 用法根据客户给出的系统密码表excel，将机器信息整理成以下格式并保存为txt（ip:user:pass:port:root_pw）程序会自动读取txt内容，然后进行登录-&gt;切换权限-&gt;执行命令。 ##################（晚点填）################### 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667# -*- coding: UTF-8 -*-import timeimport paramikocmdtext = 'uname -r'#要执行的命令def verification_ssh(host,username,password,port,root_pwd,cmd): s=paramiko.SSHClient() s.load_system_host_keys() s.set_missing_host_key_policy(paramiko.AutoAddPolicy()) s.connect(hostname = host,port=int(port),username=username, password=password) if username != 'root': ssh = s.invoke_shell() time.sleep(0.1) ssh.send('su -\n') buff = '' while not buff.endswith('Password: '): resp = ssh.recv(9999) buff +=resp ssh.send(root_pwd) ssh.send('\n') buff = '' while not buff.endswith('# '): resp = ssh.recv(9999) buff +=resp ssh.send(cmd) ssh.send('\n') buff = '' while not buff.endswith('# '): resp = ssh.recv(9999) buff +=resp s.close() result = buff else: stdin, stdout, stderr = s.exec_command(cmd) result = stdout.read() s.close() return resultif __name__ == "__main__": for i in open('ssh.txt'): if '#' in i[0]: pass else: ssh_list = i.strip().split(':') try: result = verification_ssh(host=ssh_list[0], username=ssh_list[2],password=ssh_list[3],port=ssh_list[1],root_pwd=ssh_list[4],cmd=cmdtext) if 'Install G01 success' in result:# 判断是否安装成功 print ssh_list[0],'Install G01 Success!' with open('install_log.txt','a') as f: text = ssh_list[0]+"-----------------------\n"+result+"-----------------------\n" f.write(text) elif 'FAILED' in result:#判断相关服务未启动 print ssh_list[0],'FAILED' with open('FAILED_log.txt', 'a') as f: text = ssh_list[0] + "-----------------------\n" + result + "-----------------------\n" f.write(text) else: print ssh_list[0],'Install Error'#判断安装失败 with open('error.txt', 'a') as f: text = ssh_list[0] + "-----------------------\n" + result + "-----------------------\n" f.write(text) except:#无法ssh print ssh_list[0],'ssh error' with open('no_ssh.txt','a') as f: text = ssh_list[0]+'\n' f.write(text)]]></content>
       <tags>
         <tag>Python</tag>
         <tag>批量运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Mysql注入总结(待填坑)]]></title>
-    <url>%2FMysql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93(%E5%BE%85%E5%A1%AB%E5%9D%91)%2F</url>
-    <content type="text"><![CDATA[Please enter the password to read the blog. Incorrect Password! No content to display! U2FsdGVkX1800JubV1EtmyR16cJ0O9JSjUgzvKLLFZVKPMN2T+KgH4Hw1+LtjlinS4GfYFGuqrWYgcuJ5nEpAaECRorRevgRJdGPRgjq638lVCQtVVlqk+0/jCtsCJijBR59OHF2r2TZqKDZtC/Un64DWg3kYpp5IuvANE3D6bsmKfKHrP5EMKCEeScJ6fjYrP8rMChQAPUKj3ATYe8RtKMQSryhy+bMANNty0s7jeMz1Wydfe6Jt52yRt5vnxBY/dU5lzXhksBjxdByqqrhNaSRW1ko/HZcqCaN59Wo+g5eKyLe4DPP0rUGIXFsYU16lQXgeyv28bgJE9ysSCQklxJwfk+fVN6re8lal1aa7snJx2iTSmnC2/zB4x5Qqfggr1Pyfm4FDrNaPR4nP4XucDXAJVaBhRf6g1bJzTZDT6Vgdr5krdH5We4uZLoL77uzW8OAJhfYm/OWlWbKqKZIfQaab6UJ+HoHoI985QpCHJNQHHtz4LbwxuCilPOKB37IDEJi0FO0ECpr7otsBA8Sv5qozfHzev0Hol8l/IiriX4=]]></content>
-      <tags>
-        <tag>渗透测试</tag>
-        <tag>sql</tag>
       </tags>
   </entry>
   <entry>
