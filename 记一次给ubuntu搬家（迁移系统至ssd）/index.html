@@ -1,4 +1,947 @@
-<!DOCTYPE html><html class="theme-next mist use-motion" lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><script src="/lib/pace/pace.min.js?v=1.0.2"></script><link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css"><meta name="keywords" content="ubuntu,"><link rel="alternate" href="/atom.xml" title="Guoker'Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="https://photo.o0o0.club/g.ico?v=5.1.2"><meta name="description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback"><meta name="keywords" content="ubuntu"><meta property="og:type" content="article"><meta property="og:title" content="记一次给Ubuntu搬家（迁移系统至SSD）"><meta property="og:url" content="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/index.html"><meta property="og:site_name" content="Guoker&#39;Blog"><meta property="og:description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback"><meta property="og:locale" content="zh-Hans"><meta property="og:image" content="http://photo.o0o0.club/25/1511587358728.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511587416780.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511587476066.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588194407.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588259360.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588305417.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588696928.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588892484.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511588975737.jpg"><meta property="og:image" content="http://photo.o0o0.club/25/1511589259055.jpg"><meta property="og:updated_time" content="2019-01-17T08:24:00.000Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="记一次给Ubuntu搬家（迁移系统至SSD）"><meta name="twitter:description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback"><meta name="twitter:image" content="http://photo.o0o0.club/25/1511587358728.jpg"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Mist",version:"5.1.2",sidebar:{position:"left",display:"post",offset:12,offset_float:12,b2t:!0,scrollpercent:!0,onmobile:!1},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/"><title>记一次给Ubuntu搬家（迁移系统至SSD） | Guoker'Blog</title></head><body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">Guoker'Blog</span><span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description"></h1></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br> 关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-sitemap"><a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i><br> 站点地图</a></li><li class="menu-item menu-item-辣鸡脚本"><a href="/get/some_script.html" rel="section"><i class="menu-item-icon fa fa-fw fa-辣鸡脚本"></i><br> 辣鸡脚本</a></li><li class="menu-item menu-item-search"><a href="javascript:;" class="popup-trigger"><i class="menu-item-icon fa fa-search fa-fw"></i><br> 搜索</a></li></ul><div class="site-search"><div class="algolia-popup popup search-popup"><div class="algolia-search"><div class="algolia-search-input-icon"><i class="fa fa-search"></i></div><div class="algolia-search-input" id="algolia-search-input"></div></div><div class="algolia-results"><div id="algolia-stats"></div><div id="algolia-hits"></div><div id="algolia-pagination" class="algolia-pagination"></div></div><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span></div></div></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="name" content="GuoKer'Blog"><meta itemprop="description" content><meta itemprop="image" content="https://photo.o0o0.club/tx.png"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="Guoker'Blog"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">记一次给Ubuntu搬家（迁移系统至SSD）</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-25T14:02:00+08:00">2017-11-25</time></span> <span class="post-meta-divider">|</span><span class="page-pv"><i class="fa fa-file-o"></i><span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span><div class="post-wordcount"><span class="post-meta-item-icon"><i class="fa fa-file-word-o"></i></span> <span class="post-meta-item-text">字数统计&#58;</span> <span title="字数统计">1,009</span> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-clock-o"></i></span> <span class="post-meta-item-text">阅读时长 &asymp;</span> <span title="阅读时长">4</span></div></div></header><div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。</p><h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>操作系统：Ubuntu 16.04 LTS<br>使用软件：Systemback 、 Grub Customizer<br>U盘一个</p><h2 id="Systemback"><a href="#Systemback" class="headerlink" title="Systemback"></a>Systemback</h2><p>Systemback是一个Ubuntu系统中用于发布自定义系统镜像和系统备份的软件。有时候我们对自己的Ubuntu做了很多设置，比如各种软件包，各种自定义的配置。我们想要在另一台电脑上也安装一个和我们一模一样的系统，这个时候就会用到这种方法了。这个方法不仅可以用于发布系统，也可以用来作为系统备份使用。</p><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:nemh/systemback</span><br><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install systemback unionfs-fuse</span><br></pre></td></tr></table></figure><h2 id="Grub-Customizer"><a href="#Grub-Customizer" class="headerlink" title="Grub Customizer"></a>Grub Customizer</h2><p>Grub Customizer ，是一个很酷的GRUB2 配置工，图形化界面，让你配置更简单，轻松上手。</p><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:danielrichter2007/grub-customizer</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install grub-customizer</span><br></pre></td></tr></table></figure><h1 id="实际操作"><a href="#实际操作" class="headerlink" title="实际操作"></a>实际操作</h1><p>安装好systemback后在Dash菜单中找到并打开</p><p><img src="http://photo.o0o0.club/25/1511587358728.jpg" alt="enter description here"><br>根据提示输入管理密码进入主界面</p><p><img src="http://photo.o0o0.club/25/1511587416780.jpg" alt="enter description here"><br>在【还原点操作】处点击【创建新的】创建好我们的第一个还原点，也以便以后做系统测试时莫名其妙的系统崩溃了用做还原。</p><h2 id="创建live"><a href="#创建live" class="headerlink" title="创建live"></a>创建live</h2><p>终于……创建好了还原点后我们在【功能菜单】处点击【创建live系统】</p><p><img src="http://photo.o0o0.club/25/1511587476066.jpg" alt="enter description here"><br>记得勾上【包含用户数据文件】然后点击【创建新的】创建完成后我们插入U盘将创建好的live镜像写入Upan。在【创建支持live模式的镜像】处选择我们刚刚创建好的镜像后找到【live模式选项】中的【向目标设备写入】然后等待写入完成</p><h2 id="写入SSD"><a href="#写入SSD" class="headerlink" title="写入SSD"></a>写入SSD</h2><p>当完成写入后，重启电脑进入BIOS将第一启动项设置成U盘进入系统，打开systemback<br>file:///media/guoker/%E5%BC%80%E5%8F%91/U%E7%9B%98%E4%B8%AD%E7%9A%84systembak.png<img src="http://photo.o0o0.club/25/1511588194407.jpg" alt="enter description here"><br>点击【功能菜单】处的【系统安装】<br><img src="http://photo.o0o0.club/25/1511588259360.jpg" alt="enter description here"><br>设置好账号密码等相关信息后点击下一步<br><img src="http://photo.o0o0.club/25/1511588305417.jpg" alt="enter description here"><br>选择好分区并勾上【传递用户配置文件及用户数据】（不推荐在ssd上挂载swap）选择完成后点击【绿色的左箭头】点击下一步等待写入完成即可</p><h2 id="引导启动"><a href="#引导启动" class="headerlink" title="引导启动"></a>引导启动</h2><p>写入完成后我们需要修改grub2来完成引导新的ubuntu启动（貌似我这儿系统完成写入后不会自动修改引导进入存放在ssd上的ubuntu而是默认进入装在机械硬盘上的系统）<br>由于我对grub并不熟悉，所以我选择使用Grub Customizer来完成修改。<br>在Dash菜单中找到Grub Customizer输入管理员密码后启动<br><img src="http://photo.o0o0.club/25/1511588696928.jpg" alt="enter description here"><br>由于我现在已经修改好了，所以我的截图会与实际不符，大家操作的时候只要选中第一项右键编辑即可查看引导的信息<br><img src="http://photo.o0o0.club/25/1511588892484.jpg" alt="enter description here"><br>选中并复制，然后我们新建一条<br><img src="http://photo.o0o0.club/25/1511588975737.jpg" alt="enter description here"><br>把我们复制下来的内容黏贴进去，并做修改（两个修改事项分区位置和uuid），首先我们之前安装的位置是在第一硬盘的第三分区（hd0,gpt3）然后再查看我们的硬盘uuid以及安装的系统所在的分区。<br></p><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid    <span class="comment">#查询硬盘UUID</span></span><br></pre></td></tr></table></figure><p></p><p><img src="http://photo.o0o0.club/25/1511589259055.jpg" alt="enter description here"><br>uuid=67990180-344a-45ad-b765-fb9dfe56978f<br>完成替换后我们保存新建的条项目，在【常规设置】中【默认项】里的【预定义】设置成我们先建的条项目，点击保存即可。</p><h1 id="end"><a href="#end" class="headerlink" title="end"></a>end</h1><p>重启后即可进入安装在ssd上的系统</p></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> GuoKer'Blog</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/" title="记一次给Ubuntu搬家（迁移系统至SSD）">https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"><a href="/tags/ubuntu/" rel="tag"><i class="fa fa-tag"></i> ubuntu</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/安全信息资料库（感谢backlion整理）/" rel="next" title="安全信息资料库（感谢backlion整理）"><i class="fa fa-chevron-left"></i> 安全信息资料库（感谢backlion整理）</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/Heartbleed心脏出血-循环搜集脚本/" rel="prev" title="Heartbleed心脏出血-循环搜集脚本">Heartbleed心脏出血-循环搜集脚本<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div><div class="comments" id="comments"><div id="SOHUCS"></div></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="https://photo.o0o0.club/tx.png" alt="GuoKer'Blog"><p class="site-author-name" itemprop="name">GuoKer'Blog</p><p class="site-description motion-element" itemprop="description"></p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">23</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">21</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/GuoKerS" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:Attackesb@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i> E-Mail</a></span><span class="links-of-author-item"><a href="tencent://message/?Menu=yes&uin=9644395" target="_blank" title="QQ"><i class="fa fa-fw fa-globe"></i> QQ</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-globe"></i> 推荐阅读</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"> <a href="http://google.com/" title="Google" target="_blank">Google</a></li><li class="links-of-blogroll-item"> <a href="http://www.freebuf.com/" title="FreeBuf" target="_blank">FreeBuf</a></li><li class="links-of-blogroll-item"> <a href="https://t00ls.net/" title="T00ls" target="_blank">T00ls</a></li><li class="links-of-blogroll-item"> <a href="http://www.zhihu.com/" title="知乎" target="_blank">知乎</a></li></ul></div><div id="days"></div><script>function show_date_time(){window.setTimeout("show_date_time()",1e3),BirthDay=new Date("09/17/2017 00:08:56"),today=new Date,timeold=today.getTime()-BirthDay.getTime(),sectimeold=timeold/1e3,secondsold=Math.floor(sectimeold),msPerDay=864e5,e_daysold=timeold/msPerDay,daysold=Math.floor(e_daysold),e_hrsold=24*(e_daysold-daysold),hrsold=setzero(Math.floor(e_hrsold)),e_minsold=60*(e_hrsold-hrsold),minsold=setzero(Math.floor(60*(e_hrsold-hrsold))),seconds=setzero(Math.floor(60*(e_minsold-minsold))),document.getElementById("days").innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒"}function setzero(e){return e<10&&(e="0"+e),e}show_date_time()</script></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Systemback"><span class="nav-number">2.1.</span> <span class="nav-text">Systemback</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Grub-Customizer"><span class="nav-number">2.2.</span> <span class="nav-text">Grub Customizer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际操作"><span class="nav-number">3.</span> <span class="nav-text">实际操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建live"><span class="nav-number">3.1.</span> <span class="nav-text">创建live</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写入SSD"><span class="nav-number">3.2.</span> <span class="nav-text">写入SSD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导启动"><span class="nav-number">3.3.</span> <span class="nav-text">引导启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#end"><span class="nav-number">4.</span> <span class="nav-text">end</span></a></li></ol></div></div></section><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span id="scrollpercent"><span>0</span>%</span></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div class="copyright"> &copy; <span itemprop="copyrightYear">2019</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">GuoKer'Blog</span></div><div class="powered-by">基于 <a class="theme-link" href="https://hexo.io">Hexo</a> 修改</div> <span class="post-meta-divider">|</span><div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/GuoKerS/hexo-theme-next-theme">Next-theme.Mist</a> v5.1.2</div><div class="theme-info"><div class="powered-by"></div> <span class="post-count">|博客全站共28.8k字</span></div><div class="busuanzi-count"><script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span><span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span></div></div></footer></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script><script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="/js/src/Valine.min.js"></script><script src="/js/src/Valine.min.js"></script><script type="text/javascript">var GUEST=["nick","mail","link"],guest="nice";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!0,notify:!1,appId:"JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI",appKey:"Im4RXpbhuxnxUC2rWJq50eQN",placeholder:"说点什么吧！",avatar:"hide",guest_info:["nick"],pageSize:"10"});var infoEle=document.querySelector("#comments .info");infoEle&&infoEle.childNodes&&0<infoEle.childNodes.length&&infoEle.childNodes.forEach(function(e){e.parentNode.removeChild(e)})</script><script type="text/javascript">
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="ubuntu,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Guoker'Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="https://photo.o0o0.club/g.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback">
+<meta name="keywords" content="ubuntu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次给Ubuntu搬家（迁移系统至SSD）">
+<meta property="og:url" content="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/index.html">
+<meta property="og:site_name" content="Guoker&#39;Blog">
+<meta property="og:description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511587358728.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511587416780.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511587476066.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588194407.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588259360.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588305417.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588696928.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588892484.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511588975737.jpg">
+<meta property="og:image" content="http://photo.o0o0.club/25/1511589259055.jpg">
+<meta property="og:updated_time" content="2019-01-17T08:24:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次给Ubuntu搬家（迁移系统至SSD）">
+<meta name="twitter:description" content="前言近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。 准备工作操作系统：Ubuntu 16.04 LTS使用软件：Systemback">
+<meta name="twitter:image" content="http://photo.o0o0.club/25/1511587358728.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/">
+
+
+
+
+
+  <title>记一次给Ubuntu搬家（迁移系统至SSD） | Guoker'Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Guoker'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-辣鸡脚本">
+          <a href="/get/some_script.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-辣鸡脚本"></i> <br>
+            
+            辣鸡脚本
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GuoKer'Blog">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://photo.o0o0.club/tx.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Guoker'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">记一次给Ubuntu搬家（迁移系统至SSD）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-25T14:02:00+08:00">
+                2017-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,009
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近日，一名小伙伴给我安利了一波deepin大法，但无奈我微星的本子装ubuntu都麻烦，因此强行安装一波后用户体验极差，思来想去还是ubuntu靠谱。但无奈很早之前我把ubuntu装在了机械硬盘上，现在又想把系统原封不动的迁移到固态上因此就有了此文。仅做记录，有错误的地方请大佬斧正，若有更便捷的方法还请告知。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>操作系统：Ubuntu 16.04 LTS<br>使用软件：Systemback   、    Grub Customizer<br>U盘一个</p>
+<h2 id="Systemback"><a href="#Systemback" class="headerlink" title="Systemback"></a>Systemback</h2><p>Systemback是一个Ubuntu系统中用于发布自定义系统镜像和系统备份的软件。有时候我们对自己的Ubuntu做了很多设置，比如各种软件包，各种自定义的配置。我们想要在另一台电脑上也安装一个和我们一模一样的系统，这个时候就会用到这种方法了。这个方法不仅可以用于发布系统，也可以用来作为系统备份使用。</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:nemh/systemback</span><br><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install systemback unionfs-fuse</span><br></pre></td></tr></table></figure>
+<h2 id="Grub-Customizer"><a href="#Grub-Customizer" class="headerlink" title="Grub Customizer"></a>Grub Customizer</h2><p>Grub Customizer ，是一个很酷的GRUB2 配置工，图形化界面，让你配置更简单，轻松上手。</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:danielrichter2007/grub-customizer</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install grub-customizer</span><br></pre></td></tr></table></figure>
+<h1 id="实际操作"><a href="#实际操作" class="headerlink" title="实际操作"></a>实际操作</h1><p>安装好systemback后在Dash菜单中找到并打开</p>
+<p><img src="http://photo.o0o0.club/25/1511587358728.jpg" alt="enter description here"><br>根据提示输入管理密码进入主界面</p>
+<p><img src="http://photo.o0o0.club/25/1511587416780.jpg" alt="enter description here"><br>在【还原点操作】处点击【创建新的】创建好我们的第一个还原点，也以便以后做系统测试时莫名其妙的系统崩溃了用做还原。</p>
+<h2 id="创建live"><a href="#创建live" class="headerlink" title="创建live"></a>创建live</h2><p>终于……创建好了还原点后我们在【功能菜单】处点击【创建live系统】</p>
+<p><img src="http://photo.o0o0.club/25/1511587476066.jpg" alt="enter description here"><br>记得勾上【包含用户数据文件】然后点击【创建新的】创建完成后我们插入U盘将创建好的live镜像写入Upan。在【创建支持live模式的镜像】处选择我们刚刚创建好的镜像后找到【live模式选项】中的【向目标设备写入】然后等待写入完成</p>
+<h2 id="写入SSD"><a href="#写入SSD" class="headerlink" title="写入SSD"></a>写入SSD</h2><p>当完成写入后，重启电脑进入BIOS将第一启动项设置成U盘进入系统，打开systemback<br>file:///media/guoker/%E5%BC%80%E5%8F%91/U%E7%9B%98%E4%B8%AD%E7%9A%84systembak.png<img src="http://photo.o0o0.club/25/1511588194407.jpg" alt="enter description here"><br>点击【功能菜单】处的【系统安装】<br><img src="http://photo.o0o0.club/25/1511588259360.jpg" alt="enter description here"><br>设置好账号密码等相关信息后点击下一步<br><img src="http://photo.o0o0.club/25/1511588305417.jpg" alt="enter description here"><br>选择好分区并勾上【传递用户配置文件及用户数据】（不推荐在ssd上挂载swap）选择完成后点击【绿色的左箭头】点击下一步等待写入完成即可</p>
+<h2 id="引导启动"><a href="#引导启动" class="headerlink" title="引导启动"></a>引导启动</h2><p>写入完成后我们需要修改grub2来完成引导新的ubuntu启动（貌似我这儿系统完成写入后不会自动修改引导进入存放在ssd上的ubuntu而是默认进入装在机械硬盘上的系统）<br>由于我对grub并不熟悉，所以我选择使用Grub Customizer来完成修改。<br>在Dash菜单中找到Grub Customizer输入管理员密码后启动<br><img src="http://photo.o0o0.club/25/1511588696928.jpg" alt="enter description here"><br>由于我现在已经修改好了，所以我的截图会与实际不符，大家操作的时候只要选中第一项右键编辑即可查看引导的信息<br><img src="http://photo.o0o0.club/25/1511588892484.jpg" alt="enter description here"><br>选中并复制，然后我们新建一条<br><img src="http://photo.o0o0.club/25/1511588975737.jpg" alt="enter description here"><br>把我们复制下来的内容黏贴进去，并做修改（两个修改事项分区位置和uuid），首先我们之前安装的位置是在第一硬盘的第三分区（hd0,gpt3）然后再查看我们的硬盘uuid以及安装的系统所在的分区。<br><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid    <span class="comment">#查询硬盘UUID</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://photo.o0o0.club/25/1511589259055.jpg" alt="enter description here"><br>uuid=67990180-344a-45ad-b765-fb9dfe56978f<br>完成替换后我们保存新建的条项目，在【常规设置】中【默认项】里的【预定义】设置成我们先建的条项目，点击保存即可。</p>
+<h1 id="end"><a href="#end" class="headerlink" title="end"></a>end</h1><p>重启后即可进入安装在ssd上的系统</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    GuoKer'Blog
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/" title="记一次给Ubuntu搬家（迁移系统至SSD）">https://o0o0.club/记一次给ubuntu搬家（迁移系统至ssd）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ubuntu/" rel="tag"><i class="fa fa-tag"></i> ubuntu</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/安全信息资料库（感谢backlion整理）/" rel="next" title="安全信息资料库（感谢backlion整理）">
+                <i class="fa fa-chevron-left"></i> 安全信息资料库（感谢backlion整理）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Heartbleed心脏出血-循环搜集脚本/" rel="prev" title="Heartbleed心脏出血-循环搜集脚本">
+                Heartbleed心脏出血-循环搜集脚本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://photo.o0o0.club/tx.png" alt="GuoKer'Blog">
+            
+              <p class="site-author-name" itemprop="name">GuoKer'Blog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GuoKerS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:Attackesb@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="tencent://message/?Menu=yes&uin=9644395" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-globe"></i>QQ</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.freebuf.com/" title="FreeBuf" target="_blank">FreeBuf</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://t00ls.net/" title="T00ls" target="_blank">T00ls</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhihu.com/" title="知乎" target="_blank">知乎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("09/17/2017 00:08:56");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Systemback"><span class="nav-number">2.1.</span> <span class="nav-text">Systemback</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Grub-Customizer"><span class="nav-number">2.2.</span> <span class="nav-text">Grub Customizer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际操作"><span class="nav-number">3.</span> <span class="nav-text">实际操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建live"><span class="nav-number">3.1.</span> <span class="nav-text">创建live</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写入SSD"><span class="nav-number">3.2.</span> <span class="nav-text">写入SSD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导启动"><span class="nav-number">3.3.</span> <span class="nav-text">引导启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#end"><span class="nav-number">4.</span> <span class="nav-text">end</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GuoKer'Blog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">基于 <a class="theme-link" href="https://hexo.io">Hexo</a> 修改</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/GuoKerS/hexo-theme-next-theme">Next-theme.Mist</a> v5.1.2</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">|博客全站共29.1k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  
+  
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nice';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: false,
+        appId: 'JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI',
+        appKey: 'Im4RXpbhuxnxUC2rWJq50eQN',
+        placeholder: '说点什么吧！',
+        avatar:'hide',
+        guest_info:['nick'] ,
+        pageSize:'10' || 10,
+    });
+    
+    var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+  </script>
+
+
+  
+
+  <script type="text/javascript">
     // Popup Window;
     var isfetched = false;
     var isXml = true;
@@ -313,4 +1256,51 @@
         onPopupClose();
       }
     });
-  </script><link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css"><script src="/lib/algolia-instant-search/instantsearch.min.js"></script><script src="/js/src/algolia-search.js?v=5.1.2"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script></body></html>
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
