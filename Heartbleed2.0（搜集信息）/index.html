@@ -913,13 +913,13 @@ show_date_time();
     });
     new Valine({
         el: '#comments' ,
-        verify: true,
+        verify: false,
         notify: false,
         appId: 'JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI',
         appKey: 'Im4RXpbhuxnxUC2rWJq50eQN',
         placeholder: '说点什么吧！',
-        avatar:'mm#hide',
-        guest_info:['nick'] ,
+        avatar:'mm',
+        guest_info:['nick','mail','link'] ,
         pageSize:'10' || 10,
     });
     

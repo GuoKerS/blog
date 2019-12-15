@@ -389,7 +389,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  32
+                  30
                 </span>
               
 
@@ -437,7 +437,7 @@
 <div id="decryptionError" style="display: none;">Incorrect Password!</div>
 <div id="noContentError" style="display: none;">No content to display!</div>
 <div id="encrypt-blog" style="display:none">
-U2FsdGVkX19d/y8tl1toaL4UKdN9ZPY9dZWt8rT49NKdDgdwp0hnFd2LyAKapRQw5V7j/BnH/9jsVivaSI25/xo9JSdYaZj+E03oAD/1+EPOxHbhp3ZxPEtR1IDOvbc6rxU35YQJiEDozQaqQ3eLc8qPyxNS5/gXAFZmKO0SS+AtDXq5Vhr4JLI8h5hZJZ5SoCmVVsSUCR7+eyhQlbAB7zONjuAWlX9KEiymCWb0jEEf6ze8ttcmUSMo8OGi2wGNSNUhpcSlkEhsaHrrbvsxEjt+rM9pA59p7P5HK04vz1gW0HOZ/LlEZYYeowBqwG8k+jXecWlQ2kfZgEdmzhEtWh94UmyB9X5G5K198gu7qZbd0ZHaQWQNjyOR4nNShoiPMCvZsb27IlRfPCGz8kiMvuASa2VAP00NZ0WWTA9UAEb182w/sxZsIp/zxA46sEKW0hHayG2PGpRpsMx78eSv9tGNxhU/LB+CJxMvICrhQNYRoJ2ej7a6c10le5llOgy3lU5vbd5XT9czXKPkviSqqTCnvPHNDSYcJNTyJrYNPCQ=
+U2FsdGVkX19dZByvpRfiNvH1bSpogKnf4dNg6pakuhRjz/iLwvOgGK1ey+NA676p8YYz50GZq4f/HjW/lk87xmrib/jFZS1BsTcbFdxoXY95JMoyMyDQI96SwKpl2xp8bGk79fKva7wNZPpwvMWUlfR1RIVO3nvao562qzF3JgoNRLypAifvZFJbM8q6MLsMt2n3dmgG9kaNLTWGMQDS4r5cZ23lNG004YM8Rk+iFXwtXGa9KrYdBywvX/HhvSEt3UrgpkTbqGIgZyHRTQVuDyawKTQ/38QZN2rQZVgieGeu44vPZL/mwqMw1Xwxij2uOda+l+slYa4SLmvf5zN3XrVcUy+tLUD822YjUn5qch7tQMWMBfUbyGG6StUeCwmhNZteiLhKE6/gYHpbi9JaxFqxSL0fH9m2K34MKbf6mPWLzVgoCDgRrPaYMTqj067gYHbT5faxX9qj80KFpN2lWZCYP0wOqgTrpm99OrTH6KEP0AHoFoiyWelOzZgr5I69m5zXKvslTHCQlXFPPMq1iXnNn4TlnN+CHC/ox9PWPrI=
 </div>
 <script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
@@ -896,13 +896,13 @@ show_date_time();
     });
     new Valine({
         el: '#comments' ,
-        verify: true,
+        verify: false,
         notify: false,
         appId: 'JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI',
         appKey: 'Im4RXpbhuxnxUC2rWJq50eQN',
         placeholder: '说点什么吧！',
-        avatar:'mm#hide',
-        guest_info:['nick'] ,
+        avatar:'mm',
+        guest_info:['nick','mail','link'] ,
         pageSize:'10' || 10,
     });
     
