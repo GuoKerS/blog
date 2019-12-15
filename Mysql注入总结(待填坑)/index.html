@@ -437,7 +437,7 @@
 <div id="decryptionError" style="display: none;">Incorrect Password!</div>
 <div id="noContentError" style="display: none;">No content to display!</div>
 <div id="encrypt-blog" style="display:none">
-U2FsdGVkX1/PnUZuXdS88i7G40aWwPK2imnMuC7sTXB9EPk1Bqu5ODaBw1rMVGILJ07R975zcG+Ipcgm/Bgw9I9zq1pazJhkLIL7wMbqe73/PJjBwhTRh8bv1RympCIP62hNZDNPhasKW8EqOpr5YMs6GMJf5jdwlUYGS89ZMseBX7GB2W49OgX4vcspJ5qT7sFpSErTeSR0F9u/dMi+WRG7HceGgCHmJt3KRAC198g9KPdhEhNdcdsu58HLduM80twnzTRYEs5xcuUdj6FfmqjhBFAE7GcqDc2DMCaY3sSLKK6kyJ+tSprytg+4hXMZtHiOXKsVj00TLWQis/u5XBFFsO0zQaOJb3jZm1JGgGqYu+SszTtR0UQdsbq9WPA84G6O4v4FoybGC5hhoajA+vuC9HViW9GdhAOI3sgma7FGUI+60FW8JOJ0I62pO5cuP5qfd6Nx+0VYLotCBehGnoh5N02KbK7lzEQca+iM2j8keLHHAp496tnjpNlJRhH9BsGj+bJh0yvIehi/FJIxyHvNm0UZMskJVV66FJFYlyk=
+U2FsdGVkX18/toutp+qLMBfXU1OIAjPh3AMuOwWGqZ2DGOJzoI/n7woDvxYVIhE/q3kKyzxkdf0sfOoVGwJ1mhV8kEg++YN9DhghYV1Yo3swLy55TvxibkAQDFFqMhohb/WS2tbycaSybOI7ToCDR0lMEg+ooLckAOfrIgTbTDWSnxrKe6VrQ0Y1X4iziQUCaH95FKKBqmBjSafaRapUoRI6SqchjP4TwtzqFXBbU2Y+jIId9rz5Y7XEI80gTv4YMX2fougT3cIapPl3f9GoEI4C1GUu94Zr/ICBQEM5Cn7bG07QC7nDtEWgcJvECRtY8SrjWSnYW5lZP2MO13nLrG6KrOAtG/kOmICpLoizQw1XiCIAZy8FsSd6rVgJXpWDSqJXcUH8bCHiDGZOzZeka/4HuEf/qDWUnktT9vFmDqbLqJMpdpnSyX4+VV7H3dF3mCe3Hdt16ayS4Hq5tBb3PihR4T5+HxLE+48WbJ5H8EJo3nvzwZOWOZifkpeiLG15vPrDn2sqgiySJegEOhfkWJ2ZUqDsdgDeSU/QQoCbZZM=
 </div>
 <script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
@@ -890,7 +890,7 @@ show_date_time();
   
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
-    var guest = 'nice,mail,link';
+    var guest = 'nick,mail,link';
     guest = guest.split(',').filter(function (item) {
       return GUEST.indexOf(item)>-1;
     });
@@ -901,7 +901,7 @@ show_date_time();
         appId: 'JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI',
         appKey: 'Im4RXpbhuxnxUC2rWJq50eQN',
         placeholder: '说点什么吧！',
-        avatar:'hide',
+        avatar:'mm#hide',
         guest_info:['nick'] ,
         pageSize:'10' || 10,
     });
@@ -1254,7 +1254,7 @@ show_date_time();
   
 
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
   <script>AV.initialize("JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI", "Im4RXpbhuxnxUC2rWJq50eQN");</script>
   <script>
     function showTime(Counter) {
