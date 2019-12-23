@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="杂项,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Guoker'Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="https://photo.o0o0.club/g.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="前言由于工作的需要，负责远程协助某单位进行数据提取与本地搭建，由于此前并没有操作过Mongodb和Mysql的Innodb引擎数据库本地搭建，因此有了此文做个记录。（以下所有操作均是在本机完成，在操作前已经使用了frp+ssh隧道技术，将远程网络环境完全转发至本地。PS:后续打算捣鼓个内网穿透、隧道技术的学习记录，给自己做个总结。） 挂载 raw 镜像由于镜像是raw格式，因此考虑使用losetu">
+<meta name="keywords" content="杂项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎Mysql）">
+<meta property="og:url" content="https://o0o0.club/记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/index.html">
+<meta property="og:site_name" content="Guoker&#39;Blog">
+<meta property="og:description" content="前言由于工作的需要，负责远程协助某单位进行数据提取与本地搭建，由于此前并没有操作过Mongodb和Mysql的Innodb引擎数据库本地搭建，因此有了此文做个记录。（以下所有操作均是在本机完成，在操作前已经使用了frp+ssh隧道技术，将远程网络环境完全转发至本地。PS:后续打算捣鼓个内网穿透、隧道技术的学习记录，给自己做个总结。） 挂载 raw 镜像由于镜像是raw格式，因此考虑使用losetu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://photo.o0o0.club/_记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/1577117398583.png">
+<meta property="og:updated_time" content="2019-12-23T17:14:04.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎Mysql）">
+<meta name="twitter:description" content="前言由于工作的需要，负责远程协助某单位进行数据提取与本地搭建，由于此前并没有操作过Mongodb和Mysql的Innodb引擎数据库本地搭建，因此有了此文做个记录。（以下所有操作均是在本机完成，在操作前已经使用了frp+ssh隧道技术，将远程网络环境完全转发至本地。PS:后续打算捣鼓个内网穿透、隧道技术的学习记录，给自己做个总结。） 挂载 raw 镜像由于镜像是raw格式，因此考虑使用losetu">
+<meta name="twitter:image" content="https://photo.o0o0.club/_记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/1577117398583.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://o0o0.club/记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/">
+
+
+
+
+
+  <title>记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎Mysql） | Guoker'Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Guoker'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-辣鸡脚本">
+          <a href="/get/some_script.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br>
+            
+            辣鸡脚本
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://o0o0.club/记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GuoKer'Blog">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://photo.o0o0.club/tx.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Guoker'Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎Mysql）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T00:00:00+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于工作的需要，负责远程协助某单位进行数据提取与本地搭建，由于此前并没有操作过Mongodb和Mysql的Innodb引擎数据库本地搭建，因此有了此文做个记录。（以下所有操作均是在本机完成，在操作前已经使用了frp+ssh隧道技术，将远程网络环境完全转发至本地。PS:后续打算捣鼓个内网穿透、隧道技术的学习记录，给自己做个总结。）</p>
+<h1 id="挂载-raw-镜像"><a href="#挂载-raw-镜像" class="headerlink" title="挂载 raw 镜像"></a>挂载 raw 镜像</h1><p>由于镜像是raw格式，因此考虑使用losetup挂载回环设备进行数据库的提取。以下操作均在VMware中的centos7虚拟机中进行（通过共享目录将镜像文件夹挂载到虚拟机中）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">losetup -f # 查询可用的回环设备,模式没使用显示为loop0以此类推loop1、loop2。。。。</span><br><span class="line"></span><br><span class="line">losetup /dev/loop0 /mnt/hgfs/10.0.0.1.raw # 块设备挂载</span><br><span class="line"></span><br><span class="line">kpartx -a /dev/loop0 # 块设备分区映射</span><br><span class="line"></span><br><span class="line"># 接下来可以使用ls /dev/mapper 查看分区入口，一般是loop0p1</span><br><span class="line"></span><br><span class="line">mount /dev/mapper/loop0p1 /vmdisk #将loop0p1挂载到根目录下的vmdisk目录中（目录可以自行mkdir创建一下）</span><br></pre></td></tr></table></figure></p>
+<p>卸载设备如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">umount /vmdisk</span><br><span class="line"></span><br><span class="line">kpartx -d /dev/loop0</span><br><span class="line"></span><br><span class="line">losetup -d /dev/loop0</span><br></pre></td></tr></table></figure></p>
+<h1 id="恢复过程"><a href="#恢复过程" class="headerlink" title="恢复过程"></a>恢复过程</h1><h2 id="Mongodb"><a href="#Mongodb" class="headerlink" title="Mongodb"></a>Mongodb</h2><p>由于原先并没怎么接触过mongodb数据库，因此在恢复的时候踩了许多坑，最终正解如下。</p>
+<p>首先在<figure class="highlight plain"><figcaption><span>wt格式</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">tar zcvf mongodb_db.tar.gz db/	# 打包</span><br><span class="line">tar zxvf mongodb				# 解压</span><br></pre></td></tr></table></figure></p>
+<p>在虚拟机中安装对应版本的mongodb。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.2/x86_64/RPMS/mongodb-org-server-3.2.17-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure></p>
+<p>在查询相关资料时得知mongodb如果意外关闭的话需要对数据进行恢复，因为我拿到的直接是镜像（并未通过常规手段关闭服务后经行打包）因此拿到数据库文件后需要先对数据进行修复。</p>
+<p>首先删除db目下的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**在做任何删改操作时，都请务必cp一份备份，以防万一。**</span><br><span class="line">修改文件句柄数</span><br></pre></td></tr></table></figure></p>
+<p>#数据库接近20G有大量文件，首先遇到的报错就是提示文件句柄满而导致恢复过程中断</p>
+<p>ulimit -n 4096<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改大内存页面</span><br></pre></td></tr></table></figure></p>
+<p>echo never &gt;&gt;  /sys/kernel/mm/transparent_hugepage/enabled<br>echo never &gt;&gt;  /sys/kernel/mm/transparent_hugepage/defrag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">恢复</span><br></pre></td></tr></table></figure></p>
+<p>#这里也爆了错 通过增加storageEngine wiredTiger指定引擎</p>
+<p>#其中/home/bak/mongodb/data/db 表示你数据库所在位置<br>mongod –repair –dbpath /home/bak/mongodb/data/db –storageEngine wiredTiger<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">启动</span><br></pre></td></tr></table></figure></p>
+<p>mongod –dbpath /home/bak/mongodb/data/db –storageEngine wiredTiger<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">后台运行</span><br></pre></td></tr></table></figure></p>
+<p>mongod –dbpath=/home/bak/mongodb/data/db –logpath=/home/bak/mongodb/logs/mongodb.log –port=27017 –storageEngine wiredTiger –logappend –fork<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"># 关闭</span><br><span class="line">mongod --shutdown --dbpath /home/bak/mongodb/data/db/</span><br></pre></td></tr></table></figure></p>
+<p>至此数据库成功恢复并在本地运行。(*^__^*)开心</p>
+<p><img src="https://photo.o0o0.club/_记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/1577117398583.png" alt="mongodb"></p>
+<h2 id="Innodb引擎数据库"><a href="#Innodb引擎数据库" class="headerlink" title="Innodb引擎数据库"></a>Innodb引擎数据库</h2><p>当时在找到mysql的data目录时以为直接打包后拖至本地的data目录中即可恢复，却并未注意到表是由.frm和.idb文件组成，因此导致了在查询时找不到表名的错误。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from ks_admin;</span><br><span class="line"></span><br><span class="line">ERROR 1146 (42S02): Table 'test.ks_admin' doesn't exist</span><br></pre></td></tr></table></figure></p>
+<p>后来查阅资料得知从5.5开始，默认使用Innodb做表存储引擎，且由于事务的存在，导致这些文件如果直接复制的话是不可以还原直接查看数据。<br>而又由于innodb表存储引擎的数据都是存放在idb文件中，因此尝试通过从idb文件内恢复数据。最后有幸在<a href="http://www.zcgonvh.com/" target="_blank" rel="noopener">zcgonvh</a>大佬的博客中找到了解决方法，其大致思路为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.使用mysqlfrm工具将frm转换为建表语句</span><br><span class="line">2.创建空表</span><br><span class="line">3.释放表空间</span><br><span class="line">4.复制ibd文件，还原表空间</span><br></pre></td></tr></table></figure></p>
+<p>并且大佬还特此编写了恢复工具（再次感谢zcgonvh大佬）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">工具的大致原理</span><br><span class="line"></span><br><span class="line">1.修改frm头部标志位为_DB_TYPE_HEAP，表示内存表</span><br><span class="line">2.修改frm文件中保存的表引擎名称为MEMORY</span><br><span class="line">3.复制文件到数据目录，执行show create table还原sql</span><br><span class="line">4.替换语句中的MEMORY为原始引擎</span><br></pre></td></tr></table></figure></p>
+<p>而在大佬提供的工具中只需要使用 InnoDBRestore.exe 即可恢复数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InnoDBRepair &lt;username&gt; &lt;password&gt; &lt;port&gt; &lt;srcdir&gt; &lt;destDB&gt;</span><br><span class="line">InnoDBRepair.exe root pass 3306 c:\dbcopy my_database</span><br></pre></td></tr></table></figure></p>
+<p>大佬编译好的程序，默认连接到本地mysql，但所幸大佬已经提供了程序源码。如果mysql服务不在本机的话可以修改源码实现。</p>
+<p>大佬原文参考链接：<a href="http://www.zcgonvh.com/post/mysql_innodb_restore.html" target="_blank" rel="noopener">http://www.zcgonvh.com/post/mysql_innodb_restore.html</a></p>
+<p>修改后编译好的附件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">链接: https://pan.baidu.com/s/198Pq0jC4l7i94CM-P6PiqA 提取码: beb2</span><br></pre></td></tr></table></figure></p>
+<p>修改后源码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Net;</span><br><span class="line"><span class="keyword">using</span> System.Collections;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Specialized;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Security;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"><span class="keyword">using</span> System.Security.Permissions;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.IO;</span><br><span class="line"><span class="keyword">using</span> System.Reflection;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices;</span><br><span class="line"><span class="keyword">using</span> System.Text.RegularExpressions;</span><br><span class="line"><span class="keyword">using</span> MySql.Data.MySqlClient;</span><br><span class="line"><span class="keyword">class</span> <span class="title">a</span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span>&#123;</span><br><span class="line">Console.WriteLine(<span class="string">"MySql InnoDB Restore tool by zcgonvh.\r\n"</span>);</span><br><span class="line"><span class="keyword">if</span>(args.Length!=<span class="number">6</span>)&#123;Console.WriteLine(<span class="string">"usage: InnoDBRestore &lt;username&gt; &lt;password&gt; &lt;mysql_ip&gt; &lt;port&gt; &lt;srcdir&gt; &lt;destDB&gt;"</span>);<span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="keyword">string</span> dbname=args[<span class="number">4</span>];</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">MySqlConnection conn=<span class="keyword">new</span> MySqlConnection(<span class="keyword">string</span>.Format(<span class="string">"Host=&#123;2&#125;;UserName=&#123;0&#125;;Password=&#123;1&#125;;Port=&#123;2&#125;;"</span>,args[<span class="number">0</span>],args[<span class="number">1</span>],args[<span class="number">3</span>],args[<span class="number">2</span>]));</span><br><span class="line">conn.Open();</span><br><span class="line">MySqlCommand cmd=conn.CreateCommand();</span><br><span class="line">cmd.CommandTimeout=<span class="number">0x200000</span>;</span><br><span class="line">cmd.CommandText=<span class="string">"SET GLOBAL innodb_file_format='Barracuda';"</span>;<span class="comment">//innodb-compressed row_format</span></span><br><span class="line">cmd.ExecuteNonQuery();</span><br><span class="line">cmd.CommandText=<span class="string">"set global innodb_file_per_table='on';"</span>;<span class="comment">//single innodb</span></span><br><span class="line">cmd.ExecuteNonQuery();</span><br><span class="line">cmd.CommandText=<span class="string">"set names utf8;"</span>;</span><br><span class="line">cmd.ExecuteNonQuery();</span><br><span class="line">cmd.CommandText=<span class="string">"create database "</span>+dbname;</span><br><span class="line">cmd.ExecuteNonQuery();</span><br><span class="line">cmd.CommandText=<span class="string">"select @@datadir"</span>;</span><br><span class="line"><span class="keyword">string</span> datadir=cmd.ExecuteScalar()+<span class="string">"\\"</span>+dbname+<span class="string">"\\"</span>;</span><br><span class="line"><span class="keyword">string</span> filedir=args[<span class="number">3</span>];</span><br><span class="line">conn.ChangeDatabase(dbname);</span><br><span class="line"><span class="keyword">foreach</span>(<span class="function">FileInfo frm <span class="keyword">in</span> new <span class="title">DirectoryInfo</span>(<span class="params">filedir</span>).<span class="title">GetFiles</span>(<span class="params"><span class="string">"*.frm"</span></span>))</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Console.WriteLine(<span class="string">"restoring : "</span>+frm);</span><br><span class="line">  <span class="keyword">string</span> tablename=frm.Name.Substring(<span class="number">0</span>,frm.Name.Length<span class="number">-4</span>);</span><br><span class="line">  <span class="comment">//modify frm set type=memory</span></span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">  <span class="keyword">byte</span>[] b=File.ReadAllBytes(frm.FullName);</span><br><span class="line">  <span class="keyword">if</span>(b[<span class="number">0</span>]!=<span class="number">0xfe</span> || b[<span class="number">1</span>]!=<span class="number">0x01</span>) <span class="comment">//table magic fe 01</span></span><br><span class="line">  &#123;</span><br><span class="line">      Console.WriteLine(<span class="string">"not a table frm"</span>);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(b[<span class="number">3</span>]!=<span class="number">0x0c</span>) <span class="comment">//table type innodb</span></span><br><span class="line">  &#123;</span><br><span class="line">      <span class="keyword">if</span>(b[<span class="number">3</span>]==<span class="number">0x09</span>)</span><br><span class="line">      &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"this is a MyISAM db, copy it."</span>);</span><br><span class="line">        frm.CopyTo(datadir+frm.Name,<span class="literal">true</span>);</span><br><span class="line">        File.Copy(filedir+tablename+<span class="string">".MYD"</span>,datadir+tablename+<span class="string">".MYD"</span>);</span><br><span class="line">        File.Copy(filedir+tablename+<span class="string">".MYI"</span>,datadir+tablename+<span class="string">".MYI"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        Console.WriteLine(<span class="string">"unknown table type"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">uint</span> offset=BitConverter.ToUInt16(b,<span class="number">6</span>);<span class="comment">//io_size</span></span><br><span class="line">  offset+=BitConverter.ToUInt16(b,<span class="number">0x0e</span>);<span class="comment">//tmp_key_length</span></span><br><span class="line">  offset+=BitConverter.ToUInt16(b,<span class="number">0x10</span>);<span class="comment">//rec_length</span></span><br><span class="line">  offset+=<span class="number">2</span>;<span class="comment">//00 00</span></span><br><span class="line">  <span class="keyword">uint</span> len=BitConverter.ToUInt16(b,(<span class="keyword">int</span>)offset);<span class="comment">//type string length,in word</span></span><br><span class="line">  offset+=<span class="number">2</span>;</span><br><span class="line">  <span class="keyword">if</span>(Encoding.Default.GetString(b,(<span class="keyword">int</span>)offset,(<span class="keyword">int</span>)len)!=<span class="string">"InnoDB"</span>)</span><br><span class="line">  &#123;</span><br><span class="line">      Console.WriteLine(<span class="string">"not an innodb frm"</span>);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  b[<span class="number">3</span>]=<span class="number">6</span>;<span class="comment">//_DB_TYPE_HEAP</span></span><br><span class="line">  Array.Copy(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">0x4d</span>,<span class="number">0x45</span>,<span class="number">0x4d</span>,<span class="number">0x4f</span>,<span class="number">0x52</span>,<span class="number">0x59</span>&#125;,<span class="number">0</span>,b,offset,<span class="number">6</span>);<span class="comment">//MEMORY</span></span><br><span class="line">  FileInfo ibd=<span class="keyword">new</span> FileInfo(frm.FullName.Substring(<span class="number">0</span>,frm.FullName.Length<span class="number">-3</span>)+<span class="string">"ibd"</span>);</span><br><span class="line">  <span class="keyword">if</span>(!ibd.Exists)</span><br><span class="line">  &#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"can not found ibd: "</span>+ibd);</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  File.WriteAllBytes(datadir+frm.Name,b);<span class="comment">//write to frm file</span></span><br><span class="line">  cmd.CommandText=<span class="string">"flush tables;"</span>;</span><br><span class="line">  cmd.ExecuteNonQuery();</span><br><span class="line">  cmd.CommandText=<span class="string">"SHOW CREATE TABLE `"</span>+tablename+<span class="string">"`"</span>;</span><br><span class="line">  MySqlDataReader reader=cmd.ExecuteReader();</span><br><span class="line">  reader.Read();</span><br><span class="line">  <span class="keyword">string</span> createsql=reader[<span class="number">1</span>].ToString().Replace(<span class="string">" ENGINE=MEMORY"</span>,<span class="string">" ENGINE=InnoDB"</span>);</span><br><span class="line">  reader.Close();</span><br><span class="line">  cmd.CommandText=<span class="string">"drop table `"</span>+tablename+<span class="string">"`"</span>;</span><br><span class="line">  cmd.ExecuteNonQuery();</span><br><span class="line">  cmd.CommandText=createsql;</span><br><span class="line">  cmd.ExecuteNonQuery();</span><br><span class="line">  cmd.CommandText=<span class="string">"ALTER TABLE `"</span>+tablename+<span class="string">"` DISCARD TABLESPACE;"</span>;</span><br><span class="line">  cmd.ExecuteNonQuery();</span><br><span class="line">  ibd.CopyTo(datadir+ibd.Name,<span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">  cmd.CommandText=<span class="string">"ALTER TABLE `"</span>+tablename+<span class="string">"` IMPORT TABLESPACE;"</span>;</span><br><span class="line">  cmd.ExecuteNonQuery();</span><br><span class="line">  &#125;<span class="keyword">catch</span>(MySqlException ex)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">//change row_format</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">new</span> Regex(<span class="string">@"Schema mismatch \(Table has ROW_TYPE_(\w+) row format, .ibd file has ROW_TYPE_(\w+) row format.\)"</span>).IsMatch(ex.Message))</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">string</span> type=<span class="keyword">new</span> Regex(<span class="string">@"Schema mismatch \(Table has ROW_TYPE_(\w+) row format, .ibd file has ROW_TYPE_(\w+) row format.\)"</span>).Matches(ex.Message)[<span class="number">0</span>].Groups[<span class="number">2</span>].Value.ToString();</span><br><span class="line">      cmd.CommandText=<span class="string">"drop table `"</span>+tablename+<span class="string">"`"</span>;</span><br><span class="line">      cmd.ExecuteNonQuery();</span><br><span class="line">      File.Delete(datadir+ibd.Name);</span><br><span class="line">      cmd.CommandText=createsql+<span class="string">" row_format="</span>+type;</span><br><span class="line">      cmd.ExecuteNonQuery();</span><br><span class="line">      cmd.CommandText=<span class="string">"ALTER TABLE `"</span>+tablename+<span class="string">"` DISCARD TABLESPACE;"</span>;</span><br><span class="line">      cmd.ExecuteNonQuery();</span><br><span class="line">      ibd.CopyTo(datadir+ibd.Name,<span class="literal">true</span>);</span><br><span class="line">      cmd.CommandText=<span class="string">"ALTER TABLE `"</span>+tablename+<span class="string">"` IMPORT TABLESPACE;"</span>;</span><br><span class="line">      cmd.ExecuteNonQuery();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;Console.WriteLine(<span class="string">"unknown error:"</span>+ex);&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#125;<span class="keyword">catch</span>(Exception ex)&#123;Console.WriteLine(<span class="string">"error!! :"</span>+ex);&#125;</span><br><span class="line">&#125;</span><br><span class="line">conn.Close();</span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception ex)&#123;Console.WriteLine(ex);&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>其实raw镜像是可以使用qemu-img直接转成vmdk文件，然后在VMware中打开。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-img convert -f raw f:\192.168.1.2.raw -O vmdk f:\centos.vmdk</span><br></pre></td></tr></table></figure></p>
+<p>懒0.0如果没用特殊情况的话，直接挂载他不香吗？（手动滑稽）<br>有机会的话找个时间根据zcgonvh大佬的源码捣鼓个python版的出来。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    GuoKer'Blog
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://o0o0.club/记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/" title="记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎Mysql）">https://o0o0.club/记一次对某某云镜像中的数据提取与本地搭建（Mongodb与Innodb引擎）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/杂项/" rel="tag"><i class="fa fa-tag"></i> 杂项</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Virmach 黑五优惠监测脚本(利用server酱实现微信收信)/" rel="next" title="Virmach 黑五优惠监测脚本(利用server酱实现微信收信)">
+                <i class="fa fa-chevron-left"></i> Virmach 黑五优惠监测脚本(利用server酱实现微信收信)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="SOHUCS"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://photo.o0o0.club/tx.png" alt="GuoKer'Blog">
+            
+              <p class="site-author-name" itemprop="name">GuoKer'Blog</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GuoKerS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:Attackesb@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="tencent://message/?Menu=yes&uin=9644395" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-globe"></i>QQ</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://google.com/" title="Google" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.freebuf.com/" title="FreeBuf" target="_blank">FreeBuf</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://t00ls.net/" title="T00ls" target="_blank">T00ls</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhihu.com/" title="知乎" target="_blank">知乎</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()", 1000);
+BirthDay=new Date("09/17/2017 00:08:56");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="已运行 "+daysold+" 天 "+hrsold+" 小时 "+minsold+" 分 "+seconds+" 秒";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#挂载-raw-镜像"><span class="nav-number">2.</span> <span class="nav-text">挂载 raw 镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#恢复过程"><span class="nav-number">3.</span> <span class="nav-text">恢复过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mongodb"><span class="nav-number">3.1.</span> <span class="nav-text">Mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Innodb引擎数据库"><span class="nav-number">3.2.</span> <span class="nav-text">Innodb引擎数据库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后话"><span class="nav-number">4.</span> <span class="nav-text">后话</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GuoKer'Blog</span>
+
+  
+</div>
+
+
+  <div class="powered-by">基于 <a class="theme-link" href="https://hexo.io">Hexo</a> 修改</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/GuoKerS/hexo-theme-next-theme">Next-theme.Mist</a> v5.1.2</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">|博客全站共31.1k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  
+  
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'JJV5SI6g6kCVO6UVgTIWnhT1-MdYXbMMI',
+        appKey: 'Im4RXpbhuxnxUC2rWJq50eQN',
+        placeholder: '说点什么吧！',
+        avatar:'mm',
+        guest_info:['nick','mail','link'] ,
+        pageSize:'10' || 10,
+    });
+    
+    var infoEle = document.querySelector('#comments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+      infoEle.childNodes.forEach(function(item) {
+        item.parentNode.removeChild(item);
+      });
+    }
+  </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- badApplePlayer -->
+  
+  <!-- Your XlchPlayerKey -->
+  <script>XlchKey="zTyhgEnEAH";</script>
+  <!-- font-awesome 4.2.0 -->
+  <link href="https://lib.baomitu.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- JQuery-mousewheel 3.1.9 -->
+  <script src="https://lib.baomitu.com/jquery-mousewheel/3.1.9/jquery.mousewheel.min.js"></script>
+  <!-- Scrollbar -->
+  <script src="https://static.https.badapple.top/BadApplePlayer/js/scrollbar.js"></script>
+  <!-- BadApplePlayer -->
+  <script src="https://static.https.badapple.top/BadApplePlayer/Player.js"></script>
+  <!-- 播放器教程 https://www.liaofuzhan.com/posts/2636059693.html -->
+  
+</body>
+</html>
