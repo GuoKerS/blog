@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://o0o0.club/"/>
-  <updated>2020-03-08T15:30:23.554Z</updated>
+  <updated>2020-03-14T23:56:26.432Z</updated>
   <id>https://o0o0.club/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>基于协程的CVE-2020-0796检测脚本</title>
+    <link href="https://o0o0.club/%E5%9F%BA%E4%BA%8E%E5%8D%8F%E7%A8%8B%E7%9A%84CVE-2020-0796%E6%89%B9%E9%87%8F%E6%A3%80%E6%B5%8B%E8%84%9A%E6%9C%AC/"/>
+    <id>https://o0o0.club/基于协程的CVE-2020-0796批量检测脚本/</id>
+    <published>2020-03-14T16:00:00.000Z</published>
+    <updated>2020-03-14T23:56:26.432Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;在公开的POC基础上利用协程大幅提升了检测速度，方便运维师傅们快速的对内网进行检测。&lt;/p&gt;
+&lt;h2 id=&quot;影响版本&quot;&gt;&lt;a href=&quot;
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://o0o0.club/tags/Python/"/>
+    
+      <category term="渗透" scheme="https://o0o0.club/tags/%E6%B8%97%E9%80%8F/"/>
+    
+      <category term="运维" scheme="https://o0o0.club/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+  </entry>
   
   <entry>
     <title>获取级联平台所有用户信息的小脚本</title>
@@ -200,6 +226,26 @@
   </entry>
   
   <entry>
+    <title>Mysql注入总结(待填坑)</title>
+    <link href="https://o0o0.club/Mysql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93(%E5%BE%85%E5%A1%AB%E5%9D%91)/"/>
+    <id>https://o0o0.club/Mysql注入总结(待填坑)/</id>
+    <published>2019-05-10T16:00:00.000Z</published>
+    <updated>2019-10-01T12:50:51.176Z</updated>
+    
+    <summary type="html">
+    
+      这是一篇加密文章，内容可能是未完文章或者敏感内容。如果你确实想看，请与我联系。
+    
+    </summary>
+    
+    
+      <category term="渗透测试" scheme="https://o0o0.club/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="sql" scheme="https://o0o0.club/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python批量运维之执行命令（ssh登录）</title>
     <link href="https://o0o0.club/Python%E6%89%B9%E9%87%8F%E8%BF%90%E7%BB%B4%E4%B9%8B%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%EF%BC%88ssh%E7%99%BB%E5%BD%95%EF%BC%89/"/>
     <id>https://o0o0.club/Python批量运维之执行命令（ssh登录）/</id>
@@ -219,26 +265,6 @@
       <category term="Python" scheme="https://o0o0.club/tags/Python/"/>
     
       <category term="批量运维" scheme="https://o0o0.club/tags/%E6%89%B9%E9%87%8F%E8%BF%90%E7%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql注入总结(待填坑)</title>
-    <link href="https://o0o0.club/Mysql%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93(%E5%BE%85%E5%A1%AB%E5%9D%91)/"/>
-    <id>https://o0o0.club/Mysql注入总结(待填坑)/</id>
-    <published>2019-05-10T16:00:00.000Z</published>
-    <updated>2019-10-01T12:50:51.176Z</updated>
-    
-    <summary type="html">
-    
-      这是一篇加密文章，内容可能是未完文章或者敏感内容。如果你确实想看，请与我联系。
-    
-    </summary>
-    
-    
-      <category term="渗透测试" scheme="https://o0o0.club/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="sql" scheme="https://o0o0.club/tags/sql/"/>
     
   </entry>
   
@@ -282,9 +308,9 @@
     </summary>
     
     
-      <category term="web" scheme="https://o0o0.club/tags/web/"/>
-    
       <category term="信息泄露" scheme="https://o0o0.club/tags/%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/"/>
+    
+      <category term="web" scheme="https://o0o0.club/tags/web/"/>
     
   </entry>
   
@@ -435,28 +461,6 @@
 &lt;blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;itchat是一个开源的微信个人号接口，使用python调用微
-      
-    
-    </summary>
-    
-    
-      <category term="Python" scheme="https://o0o0.club/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Heartbleed心脏出血-循环搜集脚本</title>
-    <link href="https://o0o0.club/Heartbleed%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80-%E5%BE%AA%E7%8E%AF%E6%90%9C%E9%9B%86%E8%84%9A%E6%9C%AC/"/>
-    <id>https://o0o0.club/Heartbleed心脏出血-循环搜集脚本/</id>
-    <published>2019-01-03T08:54:00.000Z</published>
-    <updated>2019-01-04T04:58:36.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;14年的漏洞，帮大佬打杂根据网上的exp改的循环利用，搜集信息可用。&lt;/p&gt;
-&lt;p&gt;修改如下：&lt;br&gt;1.去除返回的偏移量与非Ascii字符
       
     
     </summary>
